@@ -20,18 +20,22 @@ export default class Character extends Phaser.GameObjects.Sprite {
   move() {
     if (this.cursor.down.isDown) {
       this.player.setVelocityY(70);
+      this.player.setVelocityX(0);
       return true;
     }
     if (this.cursor.up.isDown) {
       this.player.setVelocityY(-70);
+      this.player.setVelocityX(0);
       return true;
     }
     if (this.cursor.right.isDown) {
       this.player.setVelocityX(70);
+      this.player.setVelocityY(0);
       return true;
     }
     if (this.cursor.left.isDown) {
       this.player.setVelocityX(-70);
+      this.player.setVelocityY(0);
       return true;
     }
     this.player.setVelocityX(0);
