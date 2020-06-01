@@ -89,6 +89,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('bar1', 'assets/bar-png.png'); 
     this.load.image('layout', 'assets/map/Dungeon_Tileset.png');
     this.load.tilemapTiledJSON('dungeon', 'assets/map/dungeon0.json');
+    this.load.spritesheet('adventurer', 'assets/objects/adventurer-0.png',  { frameWidth: 14, frameHeight: 20 });
   }
 
   ready () {
