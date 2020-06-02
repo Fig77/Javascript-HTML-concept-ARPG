@@ -15,6 +15,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
     // sprite
     this.player = scene.physics.add.sprite(50, 100, 'adventurer', 6);
     this.cursor = scene.input.keyboard.createCursorKeys();
+    // camera cheap fix
+    this.player.setCollideWorldBounds(true);
+    this.scene.cameras.main.startFollow(this.player);
+    this.scene.cameras.main.roundPixels = true;
   };
 
   move() {
