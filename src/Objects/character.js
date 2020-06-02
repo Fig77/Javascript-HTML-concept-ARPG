@@ -56,6 +56,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   toggleIddle() {
     this.player.play('idle');
+    this.player.on('animationcomplete', () => {this.scene.time.addEvent({delay: 1000 * 10, callback: this.toggleIddle, callbackScope: this})});
   }
 
 
