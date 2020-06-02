@@ -44,6 +44,10 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
   };
+  
+  getSprite() {
+    return this.player;
+  }
 
   setCamera() {
     this.scene.cameras.main.startFollow(this.player);

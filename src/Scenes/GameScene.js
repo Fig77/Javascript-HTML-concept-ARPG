@@ -27,7 +27,7 @@ export default class GameScene extends Phaser.Scene {
       this.player = new character(this);
       this.player.setCamera();
       wall.setCollisionByExclusion([-1]);
-      this.physics.add.collider(this.player, wall);
+      this.physics.add.collider(this.player.getSprite(), wall);
       
     };
 
