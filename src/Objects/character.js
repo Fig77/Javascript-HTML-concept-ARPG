@@ -17,8 +17,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.cursor = scene.input.keyboard.createCursorKeys();
     // camera cheap fix
     this.player.setCollideWorldBounds(true);
-    this.scene.cameras.main.startFollow(this.player);
-    this.scene.cameras.main.roundPixels = true;
   };
 
   move() {
@@ -45,6 +43,11 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
   };
+
+  setCamera() {
+    this.scene.cameras.main.startFollow(this.player);
+    this.scene.cameras.main.roundPixels = true;
+  }
 
   update() {
     this.move();

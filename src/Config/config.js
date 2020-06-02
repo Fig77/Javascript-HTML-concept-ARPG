@@ -8,5 +8,8 @@ export default {
   pixelArt: true,
   physics: {
     default: 'arcade',
+    arcade: {
+      debug: true
+    }
   }
 };
