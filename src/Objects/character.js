@@ -15,12 +15,21 @@ export default class Character extends Phaser.GameObjects.Sprite {
     // sprite
     this.player = scene.physics.add.sprite(50, 100, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
-    // camera cheap fix
-    this.player.setCollideWorldBounds(true);
-    this.scene.physics.world.enable(this.scene);
+    this.initAnimation();
+    scene.time.addEvent({delay: 1000 * 10, callback: this.toggleIddle, callbackScope: this});
+    
   };
 
-  move() {
+  initAnimation() {
+    this.scene.anims.create({
+      key: 'idle',
+      frames: this.scene.anims.generateFrameNumbers('adventurer', { start: 0, end: 12 }),
+      frameRate: 6,
+      repeat: false
+    });
+  }
+
+  move(delta) {
     if (this.cursor.down.isDown) {
       this.player.setVelocityY(70);
       this.player.setVelocityX(0);
@@ -44,7 +53,12 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
   };
-  
+
+  toggleIddle() {
+    this.player.play('idle');
+  }
+
+
   getSprite() {
     return this.player;
   }
