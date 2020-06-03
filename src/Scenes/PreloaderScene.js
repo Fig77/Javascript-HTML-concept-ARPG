@@ -88,7 +88,7 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.audio('bgMusic', ['assets/TownTheme.mp3']);
     this.load.image('bar1', 'assets/bar-png.png'); 
     this.load.image('layout', 'assets/map/Dungeon_Tileset.png');
-    this.load.tilemapTiledJSON('dungeon', 'assets/map/dungeon0.json');
+    this.load.tilemapTiledJSON('dungeon', 'assets/map/dungeon1.json');
     this.load.spritesheet('adventurer', 'assets/objects/adventurer-1.png',  { frameWidth: 20, frameHeight: 20 });
   }
 
