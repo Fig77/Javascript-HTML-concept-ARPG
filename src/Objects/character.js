@@ -16,14 +16,21 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.player = scene.physics.add.sprite(50, 100, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.initAnimation();
-    scene.time.addEvent({delay: 1000 * 10, callback: this.toggleIddle, callbackScope: this});
-    
+    this.idleConfig = {
+      delay: 1000 * 5,
+      callback: this.toggleIddle,
+      callbackScope: this
+    };
+    this.timer = this.scene.time.addEvent(this.idleConfig);
   };
 
   initAnimation() {
     this.scene.anims.create({
       key: 'idle',
-      frames: this.scene.anims.generateFrameNumbers('adventurer', { start: 0, end: 12 }),
+      frames: this.scene.anims.generateFrameNumbers('adventurer', {
+        start: 0,
+        end: 12
+      }),
       frameRate: 6,
       repeat: false
     });
@@ -33,21 +40,25 @@ export default class Character extends Phaser.GameObjects.Sprite {
     if (this.cursor.down.isDown) {
       this.player.setVelocityY(70);
       this.player.setVelocityX(0);
+      this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.up.isDown) {
       this.player.setVelocityY(-70);
       this.player.setVelocityX(0);
+      this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
       this.player.setVelocityX(70);
       this.player.setVelocityY(0);
+      this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
       this.player.setVelocityX(-70);
       this.player.setVelocityY(0);
+      this.timer.reset(this.idleConfig);
       return true;
     }
     this.player.setVelocityX(0);
@@ -56,9 +67,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   toggleIddle() {
     this.player.play('idle');
-    this.player.on('animationcomplete', () => {this.scene.time.addEvent({delay: 1000 * 10, callback: this.toggleIddle, callbackScope: this})});
-  }
-
+    this.timer = this.scene.time.addEvent(this.idleConfig);
+  };
 
   getSprite() {
     return this.player;
