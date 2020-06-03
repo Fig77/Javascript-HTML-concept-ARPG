@@ -34,30 +34,48 @@ export default class Character extends Phaser.GameObjects.Sprite {
       frameRate: 6,
       repeat: false
     });
+    this.scene.anims.create({
+      key: 'walk',
+      frames: this.scene.anims.generateFrameNumbers('adventurer', {
+        start: 15,
+        end: 20
+      }),
+      frameRate: 6,
+      repeat: false
+    });
+
   }
 
   move(delta) {
     if (this.cursor.down.isDown) {
       this.player.setVelocityY(70);
       this.player.setVelocityX(0);
+      this.player.setScale(-1, 1);
+      this.player.body.offset.x -= 1;
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.up.isDown) {
       this.player.setVelocityY(-70);
       this.player.setVelocityX(0);
+      this.player.setScale(1, 1);
+      this.player.body.offset.x = -1;
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
       this.player.setVelocityX(70);
       this.player.setVelocityY(0);
+      this.player.setScale(1, 1);
+      this.player.body.offset.x *= -1;
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
       this.player.setVelocityX(-70);
       this.player.setVelocityY(0);
+      this.player.setScale(-1, 1);
+      this.player.body.offset.x += 1;
       this.timer.reset(this.idleConfig);
       return true;
     }
