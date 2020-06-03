@@ -8,6 +8,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.hp = hp;
     this.atk = atk;
     this.def = def;
+    this.speed = 70;
     // modifiers
     this.mod_hp = mod_hp;
     this.mod_atk = mod_atk;
@@ -22,6 +23,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
       callbackScope: this
     };
     this.flipped = false;
+    this.walking = false;
     this.timer = this.scene.time.addEvent(this.idleConfig);
     console.log(this.player.sprite)
   };
@@ -57,52 +59,50 @@ export default class Character extends Phaser.GameObjects.Sprite {
 
   }
 
+  playWalking() {
+    this.player.anims.play('walk', true);
+    this.walking = true;
+  };
+
+  // movingSprite will adjust the moving sprite according to direction / speed
+  // Keep in mind that for now I am adjusting it with scale, care.
+
+  movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
+    this.playWalking();
+    this.player.setVelocityY(y);
+    this.player.setVelocityX(x);
+    this.player.setScale(sx, sy);
+    if (!this.flipped) {
+      this.flipHorizontal(flip);
+    }
+  };
+
   move(delta) {
     if (this.cursor.down.isDown) {
-      this.player.anims.play('walk', true);
-      this.player.setVelocityY(70);
-      this.player.setVelocityX(0);
-      this.player.setScale(-1, 1);
-      if (!this.flipped) {
-        this.flipHorizontal(true);
-      }
+      this.movingSprite(0, 70, -1, 1);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
-      this.player.anims.play('walk', true);
-      this.player.setVelocityX(-70);
-      this.player.setVelocityY(0);
-      this.player.setScale(-1, 1);
-      if (!this.flipped) {
-        this.flipHorizontal(true);
-      }
+      this.movingSprite(-70, 0, -1, 1);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.up.isDown) {
-      this.player.anims.play('walk', true);
-      this.player.setVelocityY(-70);
-      this.player.setVelocityX(0);
-      this.player.setScale(1, 1);
-      if (this.flipped) {
-        this.flipHorizontal(false);
-      }
+      this.movingSprite(0, -70, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
-      this.player.anims.play('walk', true);
-      this.player.setVelocityX(70);
-      this.player.setVelocityY(0);
-      this.player.setScale(1, 1);
-      if (this.flipped) {
-        this.flipHorizontal(false);
-      }
+      this.movingSprite(70, 0, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
-   
+    if (this.walking) {
+      this.player.anims.stop();
+      this.player.setFrame(0);
+      this.walking = false;
+    }
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
   };
