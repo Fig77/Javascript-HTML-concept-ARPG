@@ -15,12 +15,10 @@ export default class Player extends Unit {
       frames: scene.anims.generateFrameNumbers('adventurer', {
         start: 0,
         end: 12
-      }),
-      frameRate: 6,
-      repeat: false
+      })
     };
-    this.timer = this.scene.time.addEvent(this.idleConfig);
     this.initAnimation();
+    this.timer = this.scene.time.addEvent(1000 * 5, this.unit.anims('idle'));
   };
 
   initAnimation() {
@@ -32,6 +30,16 @@ export default class Player extends Unit {
       }),
       frameRate: 10,
       repeat: -1
+    });
+
+    this.scene.anims.create({
+      key: 'idle',
+      frames: this.scene.anims.generateFrameNumbers('adventurer', {
+        start: 0,
+        end: 12
+      }),
+      frameRate: 6,
+      repeat: false
     });
   };
 
