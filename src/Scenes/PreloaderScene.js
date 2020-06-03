@@ -1,15 +1,15 @@
 import 'phaser';
 
 export default class PreloaderScene extends Phaser.Scene {
-  constructor () {
+  constructor() {
     super('Preloader');
   }
 
-  init () {
+  init() {
     this.readyCount = 0;
   }
 
-  preload () {
+  preload() {
     // add logo image
     this.add.image(400, 200, 'logo');
 
@@ -86,13 +86,16 @@ export default class PreloaderScene extends Phaser.Scene {
     this.load.image('box', 'assets/ui/grey_box.png');
     this.load.image('checkedBox', 'assets/ui/blue_boxCheckmark.png');
     this.load.audio('bgMusic', ['assets/TownTheme.mp3']);
-    this.load.image('bar1', 'assets/bar-png.png'); 
+    this.load.image('bar1', 'assets/bar-png.png');
     this.load.image('layout', 'assets/map/Dungeon_Tileset.png');
     this.load.tilemapTiledJSON('dungeon', 'assets/map/dungeon1.json');
-    this.load.spritesheet('adventurer', 'assets/objects/adventurer-1.png',  { frameWidth: 20, frameHeight: 20 });
+    this.load.spritesheet('adventurer', 'assets/objects/adventurer-3.png', {
+      frameWidth: 24,
+      frameHeight: 25
+    });
   }
 
-  ready () {
+  ready() {
     this.scene.start('Title');
     this.readyCount++;
     if (this.readyCount === 2) {

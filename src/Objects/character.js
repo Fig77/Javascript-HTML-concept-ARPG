@@ -21,15 +21,18 @@ export default class Character extends Phaser.GameObjects.Sprite {
       callback: this.toggleIddle,
       callbackScope: this
     };
+    this.flipped = false;
     this.timer = this.scene.time.addEvent(this.idleConfig);
+    console.log(this.player.sprite)
   };
-  
+
   flipHorizontal(flip) {
     if (!flip) {
       this.player.body.offset.x = 0;
     } else {
       this.player.body.offset.x = this.player.width;
     }
+    this.flipped = flip;
   };
 
   initAnimation() {
@@ -45,48 +48,61 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.scene.anims.create({
       key: 'walk',
       frames: this.scene.anims.generateFrameNumbers('adventurer', {
-        start: 15,
-        end: 20
+        start: 16,
+        end: 22
       }),
-      frameRate: 6,
-      repeat: false
+      frameRate: 10,
+      repeat: true
     });
 
   }
 
   move(delta) {
     if (this.cursor.down.isDown) {
+      this.player.anims.play('walk', true);
       this.player.setVelocityY(70);
       this.player.setVelocityX(0);
       this.player.setScale(-1, 1);
-      this.flipHorizontal(true);
-      this.timer.reset(this.idleConfig);
-      return true;
-    }
-    if (this.cursor.up.isDown) {
-      this.player.setVelocityY(-70);
-      this.player.setVelocityX(0);
-      this.player.setScale(1, 1);
-      this.flipHorizontal(false);
-      this.timer.reset(this.idleConfig);
-      return true;
-    }
-    if (this.cursor.right.isDown) {
-      this.player.setVelocityX(70);
-      this.player.setVelocityY(0);
-      this.player.setScale(1, 1);
-      this.flipHorizontal(false);
+      if (!this.flipped) {
+        this.flipHorizontal(true);
+      }
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
+      this.player.anims.play('walk', true);
       this.player.setVelocityX(-70);
       this.player.setVelocityY(0);
       this.player.setScale(-1, 1);
-      this.flipHorizontal(true);
+      if (!this.flipped) {
+        this.flipHorizontal(true);
+      }
       this.timer.reset(this.idleConfig);
       return true;
     }
+    if (this.cursor.up.isDown) {
+      this.player.anims.play('walk', true);
+      this.player.setVelocityY(-70);
+      this.player.setVelocityX(0);
+      this.player.setScale(1, 1);
+      if (this.flipped) {
+        this.flipHorizontal(false);
+      }
+      this.timer.reset(this.idleConfig);
+      return true;
+    }
+    if (this.cursor.right.isDown) {
+      this.player.anims.play('walk', true);
+      this.player.setVelocityX(70);
+      this.player.setVelocityY(0);
+      this.player.setScale(1, 1);
+      if (this.flipped) {
+        this.flipHorizontal(false);
+      }
+      this.timer.reset(this.idleConfig);
+      return true;
+    }
+   
     this.player.setVelocityX(0);
     this.player.setVelocityY(0);
   };
