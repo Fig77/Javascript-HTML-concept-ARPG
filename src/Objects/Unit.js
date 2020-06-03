@@ -1,3 +1,5 @@
+import 'phaser';
+
 export default class Unit extends Phaser.GameObjects.Sprite {
   constructor(scene, x = 50, y = 100, hp = 100, atk = 10, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0, spritekey = '') {
     super(scene);
@@ -18,13 +20,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.body.setSize(this.unit.width, this.unit.height, true);
     this.flipped = false;
     this.walking = false;
-  }
-
-  initAnimation(config) {
-    if (!config) {
-      this.scene.anims.create({});
-    }
-  }
+  };
 
   flipHorizontal(flip) {
     if (!flip) {
@@ -44,11 +40,6 @@ export default class Unit extends Phaser.GameObjects.Sprite {
 
   getSprite() {
     return this.unit;
-  }
-
-  setCamera() {
-    this.scene.cameras.main.startFollow(this.unit);
-    this.scene.cameras.main.roundPixels = true;
   }
 
   update() {};
