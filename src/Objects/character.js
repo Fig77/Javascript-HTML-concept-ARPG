@@ -50,8 +50,8 @@ export default class Character extends Phaser.GameObjects.Sprite {
     if (this.cursor.down.isDown) {
       this.player.setVelocityY(70);
       this.player.setVelocityX(0);
-      this.player.setScale(-1, 1);
-      this.player.body.offset.x -= 1;
+      //this.player.setScale(-1, 1);
+      //this.player.body.offset.x -= 1;
       this.timer.reset(this.idleConfig);
       return true;
     }
@@ -59,23 +59,23 @@ export default class Character extends Phaser.GameObjects.Sprite {
       this.player.setVelocityY(-70);
       this.player.setVelocityX(0);
       this.player.setScale(1, 1);
-      this.player.body.offset.x = -1;
-      this.timer.reset(this.idleConfig);
+      //this.player.body.offset.x = -1;
+      //this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
       this.player.setVelocityX(70);
       this.player.setVelocityY(0);
       this.player.setScale(1, 1);
-      this.player.body.offset.x *= -1;
-      this.timer.reset(this.idleConfig);
+      //this.player.body.offset.x *= -1;
+      //this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
       this.player.setVelocityX(-70);
       this.player.setVelocityY(0);
-      this.player.setScale(-1, 1);
-      this.player.body.offset.x += 1;
+      //this.player.setScale(-1, 1);
+      //this.player.body.offset.x += 1;
       this.timer.reset(this.idleConfig);
       return true;
     }
