@@ -15,6 +15,7 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.mod_def = mod_def;
     // sprite
     this.player = scene.physics.add.sprite(50, 100, 'adventurer');
+    this.player.body.setSize(this.player.width, this.player.height, true);
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.initAnimation();
     this.idleConfig = {
@@ -25,7 +26,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.flipped = false;
     this.walking = false;
     this.timer = this.scene.time.addEvent(this.idleConfig);
-    console.log(this.player.sprite)
   };
 
   flipHorizontal(flip) {
@@ -56,7 +56,6 @@ export default class Character extends Phaser.GameObjects.Sprite {
       frameRate: 10,
       repeat: true
     });
-
   }
 
   playWalking() {
@@ -72,19 +71,17 @@ export default class Character extends Phaser.GameObjects.Sprite {
     this.player.setVelocityY(y);
     this.player.setVelocityX(x);
     this.player.setScale(sx, sy);
-    if (!this.flipped) {
-      this.flipHorizontal(flip);
-    }
+    this.flipHorizontal(flip);
   };
 
   move(delta) {
     if (this.cursor.down.isDown) {
-      this.movingSprite(0, 70, -1, 1);
+      this.movingSprite(0, 70, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
-      this.movingSprite(-70, 0, -1, 1);
+      this.movingSprite(-70, 0, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
