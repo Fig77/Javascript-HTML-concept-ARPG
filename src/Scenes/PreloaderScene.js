@@ -93,6 +93,10 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 24,
       frameHeight: 25
     });
+    this.load.spritesheet('gladiator', 'assets/objects/gladiator.png', {
+      frameWidth: 24,
+      frameHeight: 26
+    });
   }
 
   ready() {

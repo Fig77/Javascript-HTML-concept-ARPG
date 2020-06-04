@@ -1,0 +1,116 @@
+import 'phaser';
+import Unit from '../Objects/Unit';
+
+export default class Gladiator extends Unit {
+  constructor(scene, x = 1489.0000000000239, y = 100, hp = 400, atk = 20, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
+    super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text);
+    this.cursor = scene.input.keyboard.createCursorKeys();
+    this.initAnimation();
+    this.timer = this.scene.time.addEvent(this.idleConfig);
+    this.text = text;
+    this.kill = scene.player;
+    this.agroed = false;
+    this.speed = 60;
+    this.dire = 1;
+    this.last = {
+      x: x,
+      y: y
+    };
+  };
+
+  initAnimation() {
+    this.scene.anims.create({
+      key: 'walkE',
+      frames: this.scene.anims.generateFrameNumbers('gladiator', {
+        start: 16,
+        end: 22
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
+  };
+
+  playWalking() {
+    this.unit.anims.play('walkE', true);
+    this.walking = true;
+  };
+
+  agroTarget() {
+    if ((Math.abs(this.kill.unit.x - this.unit.x) < 150 && (Math.abs(this.kill.unit.x - this.unit.x) < 150)) && this.agroed === false) {
+      this.speed += 35;
+      this.agroed = true;
+    } else {
+      this.cathTarget((this.kill.unit.x - this.unit.x), (this.kill.unit.y - this.unit.y));
+    }
+  };
+
+  cathTarget(dx, dy) {
+    let movx = 0;
+    let movy = 0;
+    let flip = 1;
+    let bolflip = false;
+    if (Math.abs(this.kill.unit.x - this.unit.x) < 1) {
+      console.log((Math.abs(this.kill.unit.x - this.unit.x) < 1));
+      if (dx < 0) {
+        movx = -1 * this.speed;
+        flip = -1;
+        bolflip = true;
+      } else {
+        movx = this.speed;
+      }
+    }
+    if (Math.abs(this.kill.unit.y - this.unit.y) < 1) {
+      if (dy < 0) {
+        flip = -1;
+        movy = -1 * this.speed;
+        bolflip = true;
+      } else {
+        movy = this.speed;
+      }
+    }
+    this.movingSprite(this.speed, 0, flip, 1, bolflip);
+  };
+
+  // movingSprite will adjust the moving sprite according to direction / speed
+  // Keep in mind that for now I am adjusting it with scale, care.
+
+  movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
+    this.playWalking();
+    super.movingSprite(x, y, sx, sy, flip);
+  };
+
+  move(delta) {
+    switch (delta) {
+      case 1:
+        this.movingSprite(0, this.speed, -1, 1, true);
+        return true;
+        break;
+      case 2:
+        this.movingSprite(-1 * this.speed, 0, -1, 1, true);
+        return true;
+        break;
+      case 3:
+        this.movingSprite(0, -1 * this.speed, 1, 1, false);
+        return true;
+        break;
+      case 4:
+        this.movingSprite(this.speed, 0, 1, 1, false);
+        return true;
+        break;
+      default:
+        // code block
+    }
+    if (this.walking) {
+      this.unit.anims.stop();
+      this.unit.setFrame(0);
+      this.walking = false;
+    }
+    this.unit.setVelocityX(0);
+    this.unit.setVelocityY(0);
+    this.last.x = this.unit.x;
+    this.last.y = this.unit.y;
+  }
+  update() {
+    this.agroTarget();
+  };
+};
