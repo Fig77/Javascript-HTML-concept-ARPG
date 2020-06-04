@@ -11,14 +11,12 @@ export default class Player extends Unit {
       callbackScope: this
     };
     this.idleConfig = {
-      key: 'idle',
-      frames: scene.anims.generateFrameNumbers('adventurer', {
-        start: 0,
-        end: 12
-      })
+      delay: 1000 * 5,
+      callback: this.toggleIddle,
+      callbackScope: this
     };
     this.initAnimation();
-    this.timer = this.scene.time.addEvent(1000 * 5, this.unit.anims('idle'));
+    this.timer = this.scene.time.addEvent(this.idleConfig);
   };
 
   initAnimation() {
