@@ -1,5 +1,6 @@
 import 'phaser';
 import config from '../Config/config';
+import unit from '../Objects/Unit';
 import character from '../Objects/character';
 import gladiator from '../Objects/gladiator';
 
@@ -8,36 +9,89 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
   preload() {}
-  create() {
-    // Map Init <- module this
-    const dungeon = this.make.tilemap({
-      key: 'dungeon'
+
+  mapInit() {
+    this.arena = this.make.tilemap({
+      key: 'arena'
     });
-    const terrain = dungeon.addTilesetImage("Dungeon_Tileset", "layout");
-    const bot = dungeon.createStaticLayer("Tile Layer 1", terrain, 0, 0).setDepth(-1);
-    const step = dungeon.createStaticLayer("stepable", terrain, 0, 0);
-    const wall = dungeon.createStaticLayer("wall", terrain, 0, 0);
-    const door = dungeon.createStaticLayer("door", terrain, 0, 0);
+    const terrain = this.arena.addTilesetImage("Dungeon_Tileset", "layout");
+    const bot = this.arena.createStaticLayer("Tile Layer 1", terrain, 0, 0).setDepth(-1);
+    const step = this.arena.createStaticLayer("stepp", terrain, 0, 0);
+    const wall = this.arena.createStaticLayer("wall", terrain, 0, 0);
+    const overwall = this.arena.createStaticLayer("overwall", terrain, 0, 0);
     //scenecamera
-    this.cameras.main.setBounds(0, 0, dungeon.widthInPixels, dungeon.heightInPixels);
-    this.cameras.main.zoom = 2;
+    this.cameras.main.setBounds(0, 0, this.arena.widthInPixels, this.arena.heightInPixels);
+    this.cameras.main.zoom = 1.2;
     // colider 
     wall.setCollisionByExclusion([-1]);
-    this.physics.world.bounds.width = dungeon.widthInPixels;
-    this.physics.world.bounds.height = dungeon.heightInPixels;
+    this.physics.world.bounds.width = this.arena.widthInPixels;
+    this.physics.world.bounds.height = this.arena.heightInPixels;
     this.physics.world.enable(this);
-    // Player init
-    this.player = new character(this);
-    this.gladi = new gladiator(this);
+    //colliders
+    this.walls = [wall, overwall];
+  }
+
+  playerInit() {
+    this.player = new character(this, this.arena.widthInPixels / 2, this.arena.heightInPixels - 25);
     this.player.setCamera();
-    this.physics.add.collider(this.gladi.getSprite(), wall);
-    this.gladi.getSprite().setCollideWorldBounds(true);
-    this.physics.add.collider(this.player.getSprite(), wall);
     this.player.getSprite().setCollideWorldBounds(true);
+    this.physics.add.collider(this.player.getSprite(), this.walls[0]);
+  };
+
+
+  // Even thought this popup can also be on another scene, figured was better for this example to leave it here.
+
+  statBoxInit() {
+    this.box = this.add.image(this.arena.widthInPixels - 165, this.arena.heightInPixels - 130, 'statbox');
+    //this.closeMe = this.add.image(this.box.x + 70, this.box.y - 100, 'close'); not really necessary since using spacebar.
+    this.button1 = this.add.image(this.box.x + 35, this.box.y - 100, 'arrow').setInteractive();
+    this.button2 = this.add.image(this.box.x + 35, this.box.y - 60, 'arrow');
+    this.button3 = this.add.image(this.box.x + 35, this.box.y - 20, 'arrow');
+    this.button4 = this.add.image(this.box.x + 35, this.box.y + 20, 'arrow');
+    this.button1.on('pointerdown', () => {
+      console.log('uno pressed');
+    });
+    this.button1.on('pointerdown', () => {
+      console.log('uno pressed');
+    });
+    this.button1.on('pointerdown', () => {
+      console.log('uno pressed');
+    });
+        this.button1.on('pointerdown', () => {
+      console.log('uno pressed');
+    });
+  };
+
+  statBoxManager() {
+    if (this.stat) {
+      // destroy
+      this.box.destroy();
+      this.button1.destroy();
+      this.button2.destroy();
+      this.button3.destroy();
+      this.button4.destroy();
+      this.stat = false;
+    } else {
+      this.statBoxInit();
+      this.stat = true;
+    }
+  };
+
+  create() {
+    this.stat = false;
+    this.mapInit(); //initialize map, camera and collider
+    this.playerInit(); //initialize player
+    //Ui Setups
+    this.input.keyboard.on('keydown_SPACE', () => {
+      this.statBoxManager();
+    });
+    //this.add.image(0, 0, 'box').setOrigin(0);
   };
 
   update() {
-    this.player.update();
-    this.gladi.update();
+    if (!this.stat) {
+      this.player.update();
+      //this.gladi.update();
+    }
   };
 };

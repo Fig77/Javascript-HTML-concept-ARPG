@@ -4,7 +4,6 @@ import Unit from '../Objects/Unit';
 export default class Gladiator extends Unit {
   constructor(scene, x = 1489.0000000000239, y = 100, hp = 400, atk = 20, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text);
-    this.cursor = scene.input.keyboard.createCursorKeys();
     this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
@@ -37,7 +36,7 @@ export default class Gladiator extends Unit {
 
   agroTarget() {
     if ((Math.abs(this.kill.unit.x - this.unit.x) < 150 && (Math.abs(this.kill.unit.x - this.unit.x) < 150)) && this.agroed === false) {
-      this.speed += 35;
+      this.speed += 45;
       this.agroed = true;
     } else {
       this.cathTarget((this.kill.unit.x - this.unit.x), (this.kill.unit.y - this.unit.y));
@@ -45,31 +44,11 @@ export default class Gladiator extends Unit {
   };
 
   cathTarget(dx, dy) {
-    let movx = 0;
-    let movy = 0;
     let flip = 1;
     let bolflip = false;
-    if (Math.abs(this.kill.unit.x - this.unit.x) < 1) {
-      console.log((Math.abs(this.kill.unit.x - this.unit.x) < 1));
-      if (dx < 0) {
-        movx = -1 * this.speed;
-        flip = -1;
-        bolflip = true;
-      } else {
-        movx = this.speed;
-      }
-    }
-    if (Math.abs(this.kill.unit.y - this.unit.y) < 1) {
-      if (dy < 0) {
-        flip = -1;
-        movy = -1 * this.speed;
-        bolflip = true;
-      } else {
-        movy = this.speed;
-      }
-    }
-    this.movingSprite(this.speed, 0, flip, 1, bolflip);
-  };
+
+    this.movingSprite(movx, movy, flip, 1, false);
+  }
 
   // movingSprite will adjust the moving sprite according to direction / speed
   // Keep in mind that for now I am adjusting it with scale, care.
@@ -111,6 +90,7 @@ export default class Gladiator extends Unit {
     this.last.y = this.unit.y;
   }
   update() {
-    this.agroTarget();
+    //this.agroTarget();
+    
   };
 };

@@ -17,19 +17,25 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.mod_def = mod_def;
     // sprite
     this.unit = scene.physics.add.sprite(x, y, spritekey);
-    this.unit.body.setSize(this.unit.width-3, this.unit.height-4, true);
+    this.unit.body.setSize(this.unit.width, this.unit.height, true);
     this.flipped = false;
     this.walking = false;
   };
 
   flipHorizontal(flip) {
-    if (!flip) {
-      this.unit.body.offset.x = 0;
-    } else {
-      this.unit.body.offset.x = this.unit.width;
+    if (flip !== null) {
+      if (!flip) {
+        this.unit.body.offset.x = 0;
+      } else {
+        this.unit.body.offset.x = this.unit.width;
+      }
+      this.flipped = flip;
     }
-    this.flipped = flip;
   };
+  
+  setSpriteKey(key) {
+    //this.unit.scene.physics.add.sprite(this.x, this.y, key);
+  }
 
   movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
     this.unit.setVelocityY(y);

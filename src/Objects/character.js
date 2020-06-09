@@ -2,7 +2,7 @@ import 'phaser';
 import Unit from '../Objects/Unit';
 
 export default class Player extends Unit {
-  constructor(scene, x = 50, y = 100, hp = 100, atk = 10, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
+  constructor(scene, x = 409, y = 590, hp = 100, atk = 10, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.idleConfig = {
@@ -17,6 +17,7 @@ export default class Player extends Unit {
     };
     this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
+    this.unit.body.setSize(this.unit.width - 3, this.unit.height - 4, true);
   };
 
   initAnimation() {
@@ -56,22 +57,22 @@ export default class Player extends Unit {
 
   move(delta) {
     if (this.cursor.down.isDown) {
-      this.movingSprite(0, 70, -1, 1, true);
+      this.movingSprite(0, 170, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
-      this.movingSprite(-70, 0, -1, 1, true);
+      this.movingSprite(-170, 0, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.up.isDown) {
-      this.movingSprite(0, -70, 1, 1, false);
+      this.movingSprite(0, -170, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
-      this.movingSprite(70, 0, 1, 1, false);
+      this.movingSprite(170, 0, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
