@@ -3,6 +3,7 @@ import config from '../Config/config';
 import unit from '../Objects/Unit';
 import character from '../Objects/character';
 import gladiator from '../Objects/gladiator';
+import statsUi from '../Objects/statManager'
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
@@ -38,41 +39,12 @@ export default class GameScene extends Phaser.Scene {
     this.physics.add.collider(this.player.getSprite(), this.walls[0]);
   };
 
-
-  // Even thought this popup can also be on another scene, figured was better for this example to leave it here.
-
-  statBoxInit() {
-    this.box = this.add.image(this.arena.widthInPixels - 165, this.arena.heightInPixels - 130, 'statbox');
-    //this.closeMe = this.add.image(this.box.x + 70, this.box.y - 100, 'close'); not really necessary since using spacebar.
-    this.button1 = this.add.image(this.box.x + 35, this.box.y - 100, 'arrow').setInteractive();
-    this.button2 = this.add.image(this.box.x + 35, this.box.y - 60, 'arrow');
-    this.button3 = this.add.image(this.box.x + 35, this.box.y - 20, 'arrow');
-    this.button4 = this.add.image(this.box.x + 35, this.box.y + 20, 'arrow');
-    this.button1.on('pointerdown', () => {
-      console.log('uno pressed');
-    });
-    this.button1.on('pointerdown', () => {
-      console.log('uno pressed');
-    });
-    this.button1.on('pointerdown', () => {
-      console.log('uno pressed');
-    });
-        this.button1.on('pointerdown', () => {
-      console.log('uno pressed');
-    });
-  };
-
   statBoxManager() {
     if (this.stat) {
-      // destroy
-      this.box.destroy();
-      this.button1.destroy();
-      this.button2.destroy();
-      this.button3.destroy();
-      this.button4.destroy();
+      this.statmanager.destroyMe();
       this.stat = false;
     } else {
-      this.statBoxInit();
+      this.statmanager.initManager();
       this.stat = true;
     }
   };
@@ -82,10 +54,11 @@ export default class GameScene extends Phaser.Scene {
     this.mapInit(); //initialize map, camera and collider
     this.playerInit(); //initialize player
     //Ui Setups
+    this.statmanager = new statsUi(this);
+    // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
-    //this.add.image(0, 0, 'box').setOrigin(0);
   };
 
   update() {

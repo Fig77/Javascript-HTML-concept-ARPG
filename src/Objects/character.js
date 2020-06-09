@@ -18,6 +18,17 @@ export default class Player extends Unit {
     this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.unit.body.setSize(this.unit.width - 3, this.unit.height - 4, true);
+    this.pendingStat = 0;
+    this.speed = 90;
+
+    // non cursor keys 
+    this.scene.input.keyboard.on('keydown_SHIFT', () => {
+      this.speed += 50;
+      this.currentHp -= 2;
+    });
+    this.scene.input.keyboard.on('keyup_SHIFT', () => {
+      this.speed -= 50;
+    });
   };
 
   initAnimation() {
@@ -57,22 +68,22 @@ export default class Player extends Unit {
 
   move(delta) {
     if (this.cursor.down.isDown) {
-      this.movingSprite(0, 170, -1, 1, true);
+      this.movingSprite(0, this.speed, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.left.isDown) {
-      this.movingSprite(-170, 0, -1, 1, true);
+      this.movingSprite(-1 * this.speed, 0, -1, 1, true);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.up.isDown) {
-      this.movingSprite(0, -170, 1, 1, false);
+      this.movingSprite(0, -1 * this.speed, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
     if (this.cursor.right.isDown) {
-      this.movingSprite(170, 0, 1, 1, false);
+      this.movingSprite(this.speed, 0, 1, 1, false);
       this.timer.reset(this.idleConfig);
       return true;
     }
@@ -95,7 +106,14 @@ export default class Player extends Unit {
     this.scene.cameras.main.roundPixels = true;
   }
 
+  toggleDead() {
+    if (this.currentHp <= 0) {
+      this.destroy();
+    }
+  };
+
   update() {
+    this.toggleDead();
     this.move();
   };
 };

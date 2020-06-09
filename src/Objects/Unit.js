@@ -8,6 +8,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.y = y;
     // base stats
     this.hp = hp;
+    this.currentHp = hp;
     this.atk = atk;
     this.def = def;
     this.speed = 70;
