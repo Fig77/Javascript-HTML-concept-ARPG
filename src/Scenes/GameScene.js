@@ -29,12 +29,17 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.bounds.height = this.arena.heightInPixels;
     this.physics.world.enable(this);
     //colliders
-    wall.setTileLocationCallback(24, 25, 0, 5, () => {
-      console.log('Point of may return?');
-      //wall.setTileLocationCallback(24, 25, null);
-    });
+    wall.setTileIndexCallback(24, () => this.startGame());
     this.walls = [wall, overwall];
+    this.match = false
   }
+
+  startGame() {
+    if (!this.match) {
+      this.player.unit.y -= 25;
+      this.match = true;
+    }
+  };
 
   playerInit() {
     this.player = new character(this, this.arena.widthInPixels / 2, this.arena.heightInPixels - 25);
@@ -44,7 +49,7 @@ export default class GameScene extends Phaser.Scene {
   };
 
   statBoxManager() {
-    if (this.stat) {
+    if (this.stat && !this.match) {
       this.statmanager.destroyMe();
       this.stat = false;
     } else {
