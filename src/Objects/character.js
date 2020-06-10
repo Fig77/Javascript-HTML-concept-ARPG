@@ -10,17 +10,11 @@ export default class Player extends Unit {
       callback: this.toggleIddle,
       callbackScope: this
     };
-    this.idleConfig = {
-      delay: 1000 * 5,
-      callback: this.toggleIddle,
-      callbackScope: this
-    };
     this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.unit.body.setSize(this.unit.width - 3, this.unit.height - 4, true);
     this.pendingStat = 0;
     this.speed = 90;
-
     // non cursor keys 
     this.scene.input.keyboard.on('keydown_SHIFT', () => {
       this.speed += 50;
@@ -29,6 +23,10 @@ export default class Player extends Unit {
     this.scene.input.keyboard.on('keyup_SHIFT', () => {
       this.speed -= 50;
     });
+    this.scene.input.keyboard.on('keydown_A', () => {
+      this.attack();
+    });
+
   };
 
   initAnimation() {
@@ -51,11 +49,27 @@ export default class Player extends Unit {
       frameRate: 6,
       repeat: false
     });
+
+    this.scene.anims.create({
+      key: 'advatk1',
+      frames: this.scene.anims.generateFrameNumbers('adventurer', {
+        start: 32,
+        end: 39
+      }),
+      frameRate: 6,
+      repeat: false
+    });
   };
 
   playWalking() {
     this.unit.anims.play('walk', true);
     this.walking = true;
+  };
+  
+  hardStop() {
+    this.unit.setVelocityX(0);
+    this.unit.setVelocityY(0);
+    this.walking = false;
   };
 
   // movingSprite will adjust the moving sprite according to direction / speed
@@ -106,14 +120,13 @@ export default class Player extends Unit {
     this.scene.cameras.main.roundPixels = true;
   }
 
-  toggleDead() {
-    if (this.currentHp <= 0) {
-      this.destroy();
-    }
+  attack() {
+    this.unit.anims.play('advatk1', true);
+    this.hardStop()
   };
 
   update() {
-    this.toggleDead();
+    super.update();
     this.move();
   };
 };

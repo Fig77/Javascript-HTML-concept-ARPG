@@ -29,7 +29,11 @@ export default class statManager extends Phaser.GameObjects.Container {
       fontSize: '15px',
       fill: '#fff'
     });
-    this.textCurrent = this.scene.add.text(this.box.x - 85, this.box.y + 10, 'Hp: ' + this.scene.player.currentHp+'/'+this.scene.player.hp, {
+    this.textCurrent = this.scene.add.text(this.box.x - 85, this.box.y + 10, 'Hp: ' + this.scene.player.currentHp + '/' + this.scene.player.hp, {
+      fontSize: '15px',
+      fill: '#fff'
+    });
+    this.textPoints = this.scene.add.text(this.box.x - 85, this.box.y + 80, 'Pending: ' + this.scene.player.pendingStat, {
       fontSize: '15px',
       fill: '#fff'
     });
@@ -45,6 +49,7 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.textHp.destroy();
     this.textAtk.destroy();
     this.textCurrent.destroy();
+    this.textPoints.destroy();
   };
 
   boundEvent() {
@@ -78,4 +83,10 @@ export default class statManager extends Phaser.GameObjects.Container {
       };
     }
   }
+
+  toggleDead() {
+    if (this.currentHp <= 0) {
+      this.destroy();
+    }
+  };
 };

@@ -16,7 +16,7 @@ export default class GameScene extends Phaser.Scene {
       key: 'arena'
     });
     const terrain = this.arena.addTilesetImage("Dungeon_Tileset", "layout");
-    const bot = this.arena.createStaticLayer("Tile Layer 1", terrain, 0, 0).setDepth(-1);
+    const bot = this.arena.createStaticLayer("Tile Layer 1", terrain, 0, 0);
     const step = this.arena.createStaticLayer("stepp", terrain, 0, 0);
     const wall = this.arena.createStaticLayer("wall", terrain, 0, 0);
     const overwall = this.arena.createStaticLayer("overwall", terrain, 0, 0);
@@ -29,6 +29,10 @@ export default class GameScene extends Phaser.Scene {
     this.physics.world.bounds.height = this.arena.heightInPixels;
     this.physics.world.enable(this);
     //colliders
+    wall.setTileLocationCallback(24, 25, 0, 5, () => {
+      console.log('Point of may return?');
+      //wall.setTileLocationCallback(24, 25, null);
+    });
     this.walls = [wall, overwall];
   }
 
@@ -50,6 +54,8 @@ export default class GameScene extends Phaser.Scene {
   };
 
   create() {
+    this.score = 0;
+    this.match = false;
     this.stat = false;
     this.mapInit(); //initialize map, camera and collider
     this.playerInit(); //initialize player
