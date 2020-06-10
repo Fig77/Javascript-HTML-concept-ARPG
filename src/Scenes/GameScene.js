@@ -32,12 +32,16 @@ export default class GameScene extends Phaser.Scene {
     wall.setTileIndexCallback(24, () => this.startGame());
     this.walls = [wall, overwall];
     this.match = false
+    this.logicGrid = bot;
   }
 
   startGame() {
     if (!this.match) {
-      this.player.unit.y -= 25;
+      this.player.unit.y -= 125;
       this.match = true;
+      this.gladiador = new gladiator(this, this.arena.widthInPixels / 2, 125);
+      this.gladiador.getSprite().setCollideWorldBounds(true);
+      this.physics.add.collider(this.gladiador.getSprite(), this.walls[0]);
     }
   };
 
@@ -75,7 +79,9 @@ export default class GameScene extends Phaser.Scene {
   update() {
     if (!this.stat) {
       this.player.update();
-      //this.gladi.update();
+    }
+    if (this.match) {
+      this.gladiador.update();
     }
   };
 };

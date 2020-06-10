@@ -8,7 +8,7 @@ export default class Gladiator extends Unit {
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
     this.kill = scene.player;
-    this.agroed = false;
+    this.attack_range = 5;
     this.speed = 60;
     this.dire = 1;
     this.last = {
@@ -19,10 +19,10 @@ export default class Gladiator extends Unit {
 
   initAnimation() {
     this.scene.anims.create({
-      key: 'walkE',
+      key: 'walkG',
       frames: this.scene.anims.generateFrameNumbers('gladiator', {
-        start: 16,
-        end: 22
+        start: 9,
+        end: 15
       }),
       frameRate: 10,
       repeat: -1
@@ -30,7 +30,7 @@ export default class Gladiator extends Unit {
   };
 
   playWalking() {
-    this.unit.anims.play('walkE', true);
+    this.unit.anims.play('walkG', true);
     this.walking = true;
   };
 
@@ -89,8 +89,34 @@ export default class Gladiator extends Unit {
     this.last.x = this.unit.x;
     this.last.y = this.unit.y;
   }
+
+  getOrtogonalDistance() {
+    let x = this.kill.unit.x - this.unit.x;
+    let y = this.kill.unit.y - this.unit.y;
+    return {
+      x,
+      y
+    };
+  };
+
+  chase() {
+    let distance = this.getOrtogonalDistance();
+    if (Math.round(distance.x) >= 1) {
+      this.movingSprite((distance.x / Math.abs(distance.x)) * this.speed);
+    } else if (Math.round(distance.y) >= 1) {
+      this.movingSprite(0, (distance.y / Math.abs(distance.y)) * this.speed);
+    } else {
+      this.unit.setVelocityX(0);
+      this.unit.setVelocityY(0);
+      this.walking = false;
+      this.unit.anims.stop();
+      this.unit.setFrame(0);
+    }
+
+  }
+
   update() {
-    //this.agroTarget();
-    
+    this.chase();
+
   };
 };
