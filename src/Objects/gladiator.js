@@ -11,10 +11,13 @@ export default class Gladiator extends Unit {
     this.attack_range = 5;
     this.speed = 60;
     this.dire = 1;
+    this.unit.body.setImmovable(true);
+    this.dX = 0;
     this.last = {
       x: x,
       y: y
     };
+    this.pacmanQueue = [this.followX, this.followY];
   };
 
   initAnimation() {
@@ -46,7 +49,6 @@ export default class Gladiator extends Unit {
   cathTarget(dx, dy) {
     let flip = 1;
     let bolflip = false;
-
     this.movingSprite(movx, movy, flip, 1, false);
   }
 
@@ -60,19 +62,19 @@ export default class Gladiator extends Unit {
 
   move(delta) {
     switch (delta) {
-      case 1:
+      case 3:
         this.movingSprite(0, this.speed, -1, 1, true);
         return true;
         break;
-      case 2:
+      case (-2):
         this.movingSprite(-1 * this.speed, 0, -1, 1, true);
         return true;
         break;
-      case 3:
+      case (-3):
         this.movingSprite(0, -1 * this.speed, 1, 1, false);
         return true;
         break;
-      case 4:
+      case 2:
         this.movingSprite(this.speed, 0, 1, 1, false);
         return true;
         break;
@@ -84,10 +86,14 @@ export default class Gladiator extends Unit {
       this.unit.setFrame(0);
       this.walking = false;
     }
-    this.unit.setVelocityX(0);
-    this.unit.setVelocityY(0);
-    this.last.x = this.unit.x;
-    this.last.y = this.unit.y;
+    this.stop();
+  }
+
+  stop() {
+    super.stop();
+    this.walking = false;
+    this.unit.anims.stop();
+    this.unit.setFrame(0);
   }
 
   getOrtogonalDistance() {
@@ -99,24 +105,60 @@ export default class Gladiator extends Unit {
     };
   };
 
+  direCollide() {
+    if (this.unit.body.blocked.left === false || this.unit.body.blocked.right === false) {
+      return 1;
+    }
+    if (this.unit.body.blocked.up === false || this.unit.body.blocked.down === false) {
+      return 2;
+    }
+  }
+
+  followY(distance) {
+    if (this.unit.body.blocked.up === true || this.unit.body.blocked.down === true) {
+      let aux = this.pacmanQueue.shift();
+      this.pacmanQueue.push(aux);
+      return true;
+    } else {
+      if (Math.abs(Math.round(distance.y)) >= 1) {
+        this.move((distance.y / Math.abs(distance.y)) * 3);
+        return true;
+      } else {
+        let aux = this.pacmanQueue.shift();
+        this.pacmanQueue.push(aux);
+      }
+    }
+    return false;
+  };
+
+  followX(distance) {
+    if (this.unit.body.blocked.left === true || this.unit.body.blocked.right === true) {
+      let aux = this.pacmanQueue.shift();
+      this.pacmanQueue.push(aux);
+      return true;
+    } else {
+      if (Math.abs(Math.round(distance.x)) >= 1) {
+        this.move((distance.x / Math.abs(distance.x)) * 2);
+        return true;
+      } else {
+        let aux = this.pacmanQueue.shift();
+        this.pacmanQueue.push(aux);
+      }
+    }
+    return false;
+  };
+
+
   chase() {
     let distance = this.getOrtogonalDistance();
-    if (Math.round(distance.x) >= 1) {
-      this.movingSprite((distance.x / Math.abs(distance.x)) * this.speed);
-    } else if (Math.round(distance.y) >= 1) {
-      this.movingSprite(0, (distance.y / Math.abs(distance.y)) * this.speed);
-    } else {
-      this.unit.setVelocityX(0);
-      this.unit.setVelocityY(0);
-      this.walking = false;
-      this.unit.anims.stop();
-      this.unit.setFrame(0);
+    this.qElement = this.pacmanQueue[0];
+    if (this.qElement(distance)) {
+      return true;
     }
-
+    this.stop();
   }
 
   update() {
     this.chase();
-
   };
 };

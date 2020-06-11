@@ -83,5 +83,11 @@ export default class GameScene extends Phaser.Scene {
     if (this.match) {
       this.gladiador.update();
     }
+    this.postUpdate();
   };
+  postUpdate() {
+   if (this.match) {
+      this.gladiador.dX = this.gladiador.unit.body.deltaXFinal;
+    }
+  }
 };

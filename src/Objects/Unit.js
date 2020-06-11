@@ -21,7 +21,13 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.body.setSize(this.unit.width, this.unit.height, true);
     this.flipped = false;
     this.walking = false;
+    this.dire = 1;
   };
+
+  stop() {
+    this.unit.setVelocityX(0);
+    this.unit.setVelocityY(0);
+  }
 
   flipHorizontal(flip) {
     if (flip !== null) {
@@ -33,11 +39,11 @@ export default class Unit extends Phaser.GameObjects.Sprite {
       this.flipped = flip;
     }
   };
-  
+
   attackUnit(enemy, mod = 0) {
     enemy.currentHp -= this.atk + mod;
   };
-  
+
   setSpriteKey(key) {
     //this.unit.scene.physics.add.sprite(this.x, this.y, key);
   }
@@ -52,7 +58,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   getSprite() {
     return this.unit;
   }
-  
+
   toggleDead() {
     if (this.currentHp <= 0) {
       this.destroy();
