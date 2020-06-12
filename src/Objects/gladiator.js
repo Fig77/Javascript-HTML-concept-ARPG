@@ -3,7 +3,7 @@ import Unit from '../Objects/Unit';
 
 export default class Gladiator extends Unit {
   constructor(scene, x = 1489.0000000000239, y = 100, hp = 400, atk = 20, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
-    super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text);
+    super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text, 4.5);
     this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
@@ -17,7 +17,8 @@ export default class Gladiator extends Unit {
       x: x,
       y: y
     };
-    this.pacmanQueue = [this.followX, this.followY];
+    this.pacmanQueue = [this.chaseX, this.chaseY];
+    this.unit.bounce
   };
 
   initAnimation() {
@@ -105,49 +106,41 @@ export default class Gladiator extends Unit {
     };
   };
 
-  direCollide() {
-    if (this.unit.body.blocked.left === false || this.unit.body.blocked.right === false) {
-      return 1;
+
+  isBlocked(direction, opposite, value) {
+    if (this.unit.body.blocked[direction] === true) {
+      return this.move(-1 * value);
+    } else if (this.unit.body.blocked[opposite] === true) {
+      return this.move(value);
     }
-    if (this.unit.body.blocked.up === false || this.unit.body.blocked.down === false) {
-      return 2;
-    }
+    return false;
   }
 
-  followY(distance) {
-    if (this.unit.body.blocked.up === true || this.unit.body.blocked.down === true) {
-      let aux = this.pacmanQueue.shift();
-      this.pacmanQueue.push(aux);
-      return true;
-    } else {
-      if (Math.abs(Math.round(distance.y)) >= 1) {
+  chaseY(distance) {
+    if (Math.abs(Math.round(distance.y)) >= 2) {
+      if (this.isBlocked('up', 'down', 2) === false) {
         this.move((distance.y / Math.abs(distance.y)) * 3);
-        return true;
-      } else {
-        let aux = this.pacmanQueue.shift();
-        this.pacmanQueue.push(aux);
       }
-    }
-    return false;
-  };
-
-  followX(distance) {
-    if (this.unit.body.blocked.left === true || this.unit.body.blocked.right === true) {
-      let aux = this.pacmanQueue.shift();
-      this.pacmanQueue.push(aux);
       return true;
     } else {
-      if (Math.abs(Math.round(distance.x)) >= 1) {
-        this.move((distance.x / Math.abs(distance.x)) * 2);
-        return true;
-      } else {
-        let aux = this.pacmanQueue.shift();
-        this.pacmanQueue.push(aux);
-      }
+      let aux = this.pacmanQueue.shift();
+      this.pacmanQueue.push(aux);
     }
     return false;
-  };
+  }
 
+  chaseX(distance) {
+    if (Math.abs(Math.round(distance.x)) >= 2) {
+      if (this.isBlocked('right', 'left', 3) === false) {
+        this.move((distance.x / Math.abs(distance.x)) * 2);
+      }
+      return true;
+    } else {
+      let aux = this.pacmanQueue.shift();
+      this.pacmanQueue.push(aux);
+    }
+    return false;
+  }
 
   chase() {
     let distance = this.getOrtogonalDistance();

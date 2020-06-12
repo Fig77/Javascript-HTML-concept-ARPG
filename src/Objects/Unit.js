@@ -18,10 +18,11 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.mod_def = mod_def;
     // sprite
     this.unit = scene.physics.add.sprite(x, y, spritekey);
-    this.unit.body.setSize(this.unit.width, this.unit.height, true);
+    this.unit.body.setSize(17, 22, true);
     this.flipped = false;
     this.walking = false;
     this.dire = 1;
+    
   };
 
   stop() {
@@ -32,9 +33,9 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   flipHorizontal(flip) {
     if (flip !== null) {
       if (!flip) {
-        this.unit.body.offset.x = 0;
+        this.unit.body.setSize(17, 22, true);
       } else {
-        this.unit.body.offset.x = this.unit.width;
+        this.unit.body.offset.x = 22;
       }
       this.flipped = flip;
     }
