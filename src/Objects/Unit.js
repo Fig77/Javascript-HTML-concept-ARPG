@@ -22,7 +22,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.flipped = false;
     this.walking = false;
     this.dire = 1;
-    
+
   };
 
   stop() {
@@ -41,9 +41,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     }
   };
 
-  attackUnit(enemy, mod = 0) {
-    enemy.currentHp -= this.atk + mod;
-  };
+
 
   setSpriteKey(key) {
     //this.unit.scene.physics.add.sprite(this.x, this.y, key);

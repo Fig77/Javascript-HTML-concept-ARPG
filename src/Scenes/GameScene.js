@@ -42,7 +42,17 @@ export default class GameScene extends Phaser.Scene {
       this.gladiador = new gladiator(this, this.arena.widthInPixels / 2, 125);
       this.gladiador.getSprite().setCollideWorldBounds(true);
       this.physics.add.collider(this.gladiador.getSprite(), this.walls[0]);
+      this.physics.add.collider(this.gladiador.getSprite(), this.player.getSprite());
     }
+  };
+
+  getOrtogonalDistance(attack, attacker) {
+    let x = (attack.unit.x - attacker.unit.x);
+    let y = (attack.unit.y - attacker.unit.y);
+    return {
+      x,
+      y
+    };
   };
 
   playerInit() {
@@ -86,7 +96,7 @@ export default class GameScene extends Phaser.Scene {
     this.postUpdate();
   };
   postUpdate() {
-   if (this.match) {
+    if (this.match) {
       this.gladiador.dX = this.gladiador.unit.body.deltaXFinal;
     }
   }

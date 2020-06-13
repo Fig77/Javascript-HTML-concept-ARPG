@@ -31,6 +31,15 @@ export default class Gladiator extends Unit {
       frameRate: 10,
       repeat: -1
     });
+    this.scene.anims.create({
+      key: 'attkG',
+      frames: this.scene.anims.generateFrameNumbers('gladiator', {
+        start: 16,
+        end: 23
+      }),
+      frameRate: 10,
+      repeat: -1
+    });
   };
 
   playWalking() {
@@ -97,16 +106,6 @@ export default class Gladiator extends Unit {
     this.unit.setFrame(0);
   }
 
-  getOrtogonalDistance() {
-    let x = this.kill.unit.x - this.unit.x;
-    let y = this.kill.unit.y - this.unit.y;
-    return {
-      x,
-      y
-    };
-  };
-
-
   isBlocked(direction, opposite, value) {
     if (this.unit.body.blocked[direction] === true) {
       return this.move(-1 * value);
@@ -117,7 +116,7 @@ export default class Gladiator extends Unit {
   }
 
   chaseY(distance) {
-    if (Math.abs(Math.round(distance.y)) >= 2) {
+    if (Math.abs(Math.round(distance.y)) >= 3) {
       if (this.isBlocked('up', 'down', 2) === false) {
         this.move((distance.y / Math.abs(distance.y)) * 3);
       }
@@ -130,7 +129,7 @@ export default class Gladiator extends Unit {
   }
 
   chaseX(distance) {
-    if (Math.abs(Math.round(distance.x)) >= 2) {
+    if (Math.abs(Math.round(distance.x)) >= this.unit.body.width+3) {
       if (this.isBlocked('right', 'left', 3) === false) {
         this.move((distance.x / Math.abs(distance.x)) * 2);
       }
@@ -143,7 +142,7 @@ export default class Gladiator extends Unit {
   }
 
   chase() {
-    let distance = this.getOrtogonalDistance();
+    let distance = this.scene.getOrtogonalDistance(this.kill, this);
     this.qElement = this.pacmanQueue[0];
     if (this.qElement(distance)) {
       return true;

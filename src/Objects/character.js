@@ -27,6 +27,17 @@ export default class Player extends Unit {
       this.attack();
     });
 
+    this.unit.on('animationcomplete', () => {
+      console.log('error');
+      console.log();
+    });
+    //if (frame.index === 6) {
+    //  console.log('error');
+    //  if (auxX <= this.unit.body.width && auxY <= 5) {
+    //    console.log('error');
+    //  }
+    //}
+    console.log(this.unit.anims);
   };
 
   initAnimation() {
@@ -65,7 +76,7 @@ export default class Player extends Unit {
     this.unit.anims.play('walk', true);
     this.walking = true;
   };
-  
+
   hardStop() {
     this.unit.setVelocityX(0);
     this.unit.setVelocityY(0);
@@ -122,7 +133,8 @@ export default class Player extends Unit {
 
   attack() {
     this.unit.anims.play('advatk1', true);
-    this.hardStop()
+    let auxY = Math.abs(this.scene.gladiador.unit.y - this.unit.y);
+    let auxX = Math.abs(this.scene.gladiador.unit.x - this.unit.x);
   };
 
   update() {
