@@ -41,11 +41,18 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     }
   };
 
-
-
+  attack(attacks) {
+   attacks.takeDamage(this.atk);
+  };
+  
+  takeDamage(d) {
+    console.log(this.currentHp);
+    this.currentHp -= d;
+  };
+  
   setSpriteKey(key) {
     //this.unit.scene.physics.add.sprite(this.x, this.y, key);
-  }
+  };
 
   movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
     this.unit.setVelocityY(y);
@@ -56,7 +63,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
 
   getSprite() {
     return this.unit;
-  }
+  };
 
   toggleDead() {
     if (this.currentHp <= 0) {

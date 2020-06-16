@@ -32,17 +32,27 @@ export default class GameScene extends Phaser.Scene {
     wall.setTileIndexCallback(24, () => this.startGame());
     this.walls = [wall, overwall];
     this.match = false
-    this.logicGrid = bot;
   }
 
+  addEnemies() {
+    let i = 0;
+    let gladiador = null;
+    while (i < this.score / 10) {
+      gladiador = new gladiator(this, this.arena.widthInPixels / 2+(25*i+1), 125);
+      gladiador.getSprite().setCollideWorldBounds(true);
+      this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
+      this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
+      this.enemyGroup[i] = gladiador;
+      i += 1;
+    }
+  };
+  
   startGame() {
     if (!this.match) {
       this.player.unit.y -= 125;
       this.match = true;
-      this.gladiador = new gladiator(this, this.arena.widthInPixels / 2, 125);
-      this.gladiador.getSprite().setCollideWorldBounds(true);
-      this.physics.add.collider(this.gladiador.getSprite(), this.walls[0]);
-      this.physics.add.collider(this.gladiador.getSprite(), this.player.getSprite());
+      this.addEnemies();
+
     }
   };
 
@@ -73,17 +83,20 @@ export default class GameScene extends Phaser.Scene {
   };
 
   create() {
-    this.score = 0;
+    this.score = 10;
     this.match = false;
     this.stat = false;
-    this.mapInit(); //initialize map, camera and collider
-    this.playerInit(); //initialize player
+    this.playerTarget = null;
+    this.mapInit(); // initialize map, camera and collider
+    this.playerInit(); // initialize player
+    this.enemyGroup = new Array(3, null); // Empty array of enemies.
     //Ui Setups
     this.statmanager = new statsUi(this);
     // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
+    
   };
 
   update() {
@@ -91,13 +104,14 @@ export default class GameScene extends Phaser.Scene {
       this.player.update();
     }
     if (this.match) {
-      this.gladiador.update();
+      let i = 0;
+      while(i < this.enemyGroup.length) {
+        if (this.enemyGroup[i] === null) {
+          break;
+        };
+        this.enemyGroup[i].update();
+        i +=1;
+      };
     }
-    this.postUpdate();
   };
-  postUpdate() {
-    if (this.match) {
-      this.gladiador.dX = this.gladiador.unit.body.deltaXFinal;
-    }
-  }
 };

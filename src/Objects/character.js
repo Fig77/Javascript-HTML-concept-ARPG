@@ -24,20 +24,9 @@ export default class Player extends Unit {
       this.speed -= 50;
     });
     this.scene.input.keyboard.on('keydown_A', () => {
-      this.attack();
+      this.unit.anims.play('advatk1', true);
     });
-
-    this.unit.on('animationcomplete', () => {
-      console.log('error');
-      console.log();
-    });
-    //if (frame.index === 6) {
-    //  console.log('error');
-    //  if (auxX <= this.unit.body.width && auxY <= 5) {
-    //    console.log('error');
-    //  }
-    //}
-    console.log(this.unit.anims);
+    this.lastFramAtk = -1;
   };
 
   initAnimation() {
@@ -70,6 +59,12 @@ export default class Player extends Unit {
       frameRate: 6,
       repeat: false
     });
+    let auxiliar = null;
+    this.unit.on('animationcomplete', function (anim, frame) {
+      this.lastauxiliar = frame;
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this.unit);
+    this.unit.on('animationcomplete_advatk1', (frame) => { this.attack(frame) });
   };
 
   playWalking() {
@@ -131,10 +126,29 @@ export default class Player extends Unit {
     this.scene.cameras.main.roundPixels = true;
   }
 
-  attack() {
-    this.unit.anims.play('advatk1', true);
-    let auxY = Math.abs(this.scene.gladiador.unit.y - this.unit.y);
-    let auxX = Math.abs(this.scene.gladiador.unit.x - this.unit.x);
+  getTarget() {
+    console.log('frame');
+    let i = 0;
+    while (i < this.scene.enemyGroup.length) {
+      if (this.scene.enemyGroup[i] !== null) {
+        break;
+      }
+      if (this.scene.enemyGroup[i].unit.x === this.unit.x + 33 && (this.scene.enemyGroup[i].unit.y -this.unit.x) === 0) {
+        return this.scene.enemyGroup[i];
+      }
+      i += 1;
+    };
+    return false;
+  };
+
+  attack(frame) {
+    let target = this.getTarget();
+    console.log(frame);
+    if (frame.textureFrame >= 34) {
+      if (target !== false) {
+        super.attack(target);
+      }
+    }
   };
 
   update() {
