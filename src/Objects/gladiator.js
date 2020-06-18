@@ -4,7 +4,8 @@ import Unit from '../Objects/Unit';
 export default class Gladiator extends Unit {
   constructor(scene, x = 1489.0000000000239, y = 100, hp = 400, atk = 20, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text, 4.5);
-    this.initAnimation();
+    //super.initAnimation();
+    //this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
     this.kill = scene.player;
@@ -31,14 +32,19 @@ export default class Gladiator extends Unit {
       frameRate: 10,
       repeat: -1
     });
+
     this.scene.anims.create({
       key: 'attkG',
       frames: this.scene.anims.generateFrameNumbers('gladiator', {
         start: 16,
         end: 23
       }),
-      frameRate: 10,
-      repeat: -1
+      frameRate: 6,
+      repeat: false
+    });
+
+    this.unit.on('animationcomplete_attkG', (anim, frame) => {
+      this.attack(anim, frame)
     });
   };
 
@@ -47,20 +53,11 @@ export default class Gladiator extends Unit {
     this.walking = true;
   };
 
-  agroTarget() {
-    if ((Math.abs(this.kill.unit.x - this.unit.x) < 150 && (Math.abs(this.kill.unit.x - this.unit.x) < 150)) && this.agroed === false) {
-      this.speed += 45;
-      this.agroed = true;
-    } else {
-      this.cathTarget((this.kill.unit.x - this.unit.x), (this.kill.unit.y - this.unit.y));
+  attack(anim, frame) {
+    if (frame > 19) {
+      super.attack(this.kill);
     }
   };
-
-  cathTarget(dx, dy) {
-    let flip = 1;
-    let bolflip = false;
-    this.movingSprite(movx, movy, flip, 1, false);
-  }
 
   // movingSprite will adjust the moving sprite according to direction / speed
   // Keep in mind that for now I am adjusting it with scale, care.
@@ -106,6 +103,10 @@ export default class Gladiator extends Unit {
     this.unit.setFrame(0);
   }
 
+  incapacitate() {
+    this.unit.anims.play('incGladiator', true);
+  };
+
   isBlocked(direction, opposite, value) {
     if (this.unit.body.blocked[direction] === true) {
       return this.move(-1 * value);
@@ -116,9 +117,9 @@ export default class Gladiator extends Unit {
   }
 
   chaseY(distance) {
-    if (Math.abs(Math.round(distance.y)) >= 3) {
+    if (distance.ya >= 3) {
       if (this.isBlocked('up', 'down', 2) === false) {
-        this.move((distance.y / Math.abs(distance.y)) * 3);
+        this.move(distance.y / Math.abs(distance.y) * -3);
       }
       return true;
     } else {
@@ -129,9 +130,9 @@ export default class Gladiator extends Unit {
   }
 
   chaseX(distance) {
-    if (Math.abs(Math.round(distance.x)) >= this.unit.body.width+3) {
+    if (distance.xa >= this.unit.body.width + 3) {
       if (this.isBlocked('right', 'left', 3) === false) {
-        this.move((distance.x / Math.abs(distance.x)) * 2);
+        this.move(distance.x / Math.abs(distance.x) * -2);
       }
       return true;
     } else {
@@ -142,15 +143,25 @@ export default class Gladiator extends Unit {
   }
 
   chase() {
-    let distance = this.scene.getOrtogonalDistance(this.kill, this);
+    let target = super.absolutDistanceR(this.kill);
     this.qElement = this.pacmanQueue[0];
-    if (this.qElement(distance)) {
+
+    if (target.xa >= this.unit.body.width + 3 || target.ya >= 3) {
+      this.qElement(target);
       return true;
+    } else {
+      this.stop();
+      super.setState(1);
+      return false;
     }
-    this.stop();
   }
 
   update() {
-    this.chase();
+    let state = super.update()
+    if (state === 0) {
+      this.chase();
+    } else if (state === 1) {
+      this.unit.anims.play('attkG', true);
+    }
   };
 };

@@ -21,14 +21,42 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.body.setSize(17, 22, true);
     this.flipped = false;
     this.walking = false;
-    this.dire = 1;
-
+    this.state = 0; // 0 = active, -1 = incapacitate, 1 = enraged
+    this.manualBouncingX = 0; // I've look for another way but whatever, going manual.
+    this.bounceSpeed = 100;
+    this.initAnimation();
   };
 
-  stop() {
-    this.unit.setVelocityX(0);
-    this.unit.setVelocityY(0);
+  initAnimation() {
+    this.unit.on('animationcomplete', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
+      this.emit('animationcomplete_' + anim.key, anim, frame);
+    }, this.unit);
   }
+
+  // state manager
+
+  getState() {
+    return this.state;
+  }
+
+  setState(state) {
+    this.state = -1;
+  }
+
+  update() {
+    this.toggleDead();
+    switch (this.state) {
+      case 0: {
+      }
+      case 1: {
+      }
+      case -1: {
+      }
+      default: return this.state;
+    }
+  };
+
+  // Moving actions
 
   flipHorizontal(flip) {
     if (flip !== null) {
@@ -41,37 +69,69 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     }
   };
 
-  attack(attacks) {
-   attacks.takeDamage(this.atk);
-  };
-  
-  takeDamage(d) {
-    console.log(this.currentHp);
-    this.currentHp -= d;
-  };
-  
-  setSpriteKey(key) {
-    //this.unit.scene.physics.add.sprite(this.x, this.y, key);
-  };
-
   movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
+
     this.unit.setVelocityY(y);
     this.unit.setVelocityX(x);
     this.unit.setScale(sx, sy);
     this.flipHorizontal(flip);
   };
 
-  getSprite() {
-    return this.unit;
+  absolutDistanceR(target) {
+    let distance = this.scene.getOrtogonalDistance(this, target)
+    let x = distance.x;
+    let y = distance.y;
+    let xa = Math.abs(Math.round(x))
+    let ya = Math.abs(Math.round(y))
+    return {
+      xa,
+      ya,
+      x,
+      y
+    }
+  }
+
+  stop() {
+    this.unit.setVelocityX(0);
+    this.unit.setVelocityY(0);
+  }
+
+  // basic attack action
+
+  attack(attacks) {
+    attacks.setBounce(250 * this.atk / 10);
+    attacks.setState(-1);
+    attacks.takeDamage(this.atk); // makes enemy takes damage.
   };
 
+  takeDamage(d) {
+    this.currentHp -= d;
+  };
+
+  setBounce(bounce) {
+    this.bounceSpeed = bounce * this.bounceHelper(this.flipped);
+    this.manualBouncingX = 2;
+  }
+
+  bounceOnVariable() { // will manually set a speed on x in base of damage, or unless that is for what is used.
+    this.unit.body.setVelocityX(1 * this.bounceSpeed);
+  };
+
+  bounceHelper(dire) {
+    if (dire) {
+      return 1;
+    } else {
+      return -1;
+    }
+  }
+  // death scene
   toggleDead() {
     if (this.currentHp <= 0) {
       this.destroy();
     }
   };
 
-  update() {
-    this.toggleDead();
+  getSprite() {
+    return this.unit;
   };
 };

@@ -46,13 +46,12 @@ export default class GameScene extends Phaser.Scene {
       i += 1;
     }
   };
-  
+
   startGame() {
     if (!this.match) {
       this.player.unit.y -= 125;
       this.match = true;
       this.addEnemies();
-
     }
   };
 
@@ -89,7 +88,7 @@ export default class GameScene extends Phaser.Scene {
     this.playerTarget = null;
     this.mapInit(); // initialize map, camera and collider
     this.playerInit(); // initialize player
-    this.enemyGroup = new Array(3, null); // Empty array of enemies.
+    this.enemyGroup = new Array(3); // Empty array of enemies.
     //Ui Setups
     this.statmanager = new statsUi(this);
     // Scene input managment
@@ -106,7 +105,7 @@ export default class GameScene extends Phaser.Scene {
     if (this.match) {
       let i = 0;
       while(i < this.enemyGroup.length) {
-        if (this.enemyGroup[i] === null) {
+        if (this.enemyGroup[i] === null || this.enemyGroup[i] === undefined) {
           break;
         };
         this.enemyGroup[i].update();

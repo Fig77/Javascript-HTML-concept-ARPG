@@ -10,7 +10,7 @@ export default class Player extends Unit {
       callback: this.toggleIddle,
       callbackScope: this
     };
-    this.initAnimation();
+    //this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.unit.body.setSize(this.unit.width - 3, this.unit.height - 4, true);
     this.pendingStat = 0;
@@ -23,8 +23,8 @@ export default class Player extends Unit {
     this.scene.input.keyboard.on('keyup_SHIFT', () => {
       this.speed -= 50;
     });
-    this.scene.input.keyboard.on('keydown_A', () => {
-      this.unit.anims.play('advatk1', true);
+    this.scene.input.keyboard.on('keydown_A', () => { //this has to be change since it should not be on complete.
+    this.unit.anims.play('advatk1', true);
     });
     this.lastFramAtk = -1;
   };
@@ -39,7 +39,6 @@ export default class Player extends Unit {
       frameRate: 10,
       repeat: -1
     });
-
     this.scene.anims.create({
       key: 'idle',
       frames: this.scene.anims.generateFrameNumbers('adventurer', {
@@ -59,12 +58,9 @@ export default class Player extends Unit {
       frameRate: 6,
       repeat: false
     });
-    let auxiliar = null;
-    this.unit.on('animationcomplete', function (anim, frame) {
-      this.lastauxiliar = frame;
-      this.emit('animationcomplete_' + anim.key, anim, frame);
-    }, this.unit);
-    this.unit.on('animationcomplete_advatk1', (frame) => { this.attack(frame) });
+    this.unit.on('animationcomplete_advatk1', (anim, frame) => {
+      this.attack(anim, frame)
+    });
   };
 
   playWalking() {
@@ -127,28 +123,30 @@ export default class Player extends Unit {
   }
 
   getTarget() {
-    console.log('frame');
     let i = 0;
+    let target = this.scene.enemyGroup[i];
+    let distance = null;
     while (i < this.scene.enemyGroup.length) {
-      if (this.scene.enemyGroup[i] !== null) {
-        break;
-      }
-      if (this.scene.enemyGroup[i].unit.x === this.unit.x + 33 && (this.scene.enemyGroup[i].unit.y -this.unit.x) === 0) {
-        return this.scene.enemyGroup[i];
+      target = this.scene.enemyGroup[i];
+      if (target !== undefined && target !== null) { //does no break but you can have up to 3, so its not much.
+        distance = super.absolutDistanceR(target);
+        if ((distance.xa <= this.unit.body.width + 3) && distance.ya <= 3) {
+          return target;
+        }
       }
       i += 1;
-    };
+    }
     return false;
   };
 
-  attack(frame) {
+  attack(anim, frame) {
     let target = this.getTarget();
-    console.log(frame);
     if (frame.textureFrame >= 34) {
       if (target !== false) {
         super.attack(target);
       }
     }
+    return false;
   };
 
   update() {
