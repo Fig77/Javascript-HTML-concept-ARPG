@@ -42,6 +42,7 @@ export default class GameScene extends Phaser.Scene {
   addEnemies() {
     let i = 0;
     let gladiador = null;
+    this.enemyCounter = 0;
     while (i < this.score / 10) {
       gladiador = new gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
@@ -58,6 +59,7 @@ export default class GameScene extends Phaser.Scene {
       this.player.unit.y -= 125;
       this.match = true;
       this.addEnemies();
+      this.statBoxManager();
     }
   };
 
@@ -67,7 +69,7 @@ export default class GameScene extends Phaser.Scene {
     return {
       x,
       y
-    };
+    }
   };
 
   playerInit() {
@@ -78,10 +80,10 @@ export default class GameScene extends Phaser.Scene {
   };
 
   statBoxManager() {
-    if (this.stat && !this.match) {
+    if (this.stat) {
       this.statmanager.destroyMe();
       this.stat = false;
-    } else {
+    } else if (!this.match) {
       this.statmanager.initManager();
       this.stat = true;
     }
@@ -121,7 +123,8 @@ export default class GameScene extends Phaser.Scene {
           this.enemyCounter -= 1;
           this.score += 10;
           tempEnemy.destroy();
-          tempEnemy = null;
+          tempEnemy.unit.destroy();
+          this.enemyGroup[i] = null;
         }
       }
       i += 1;
@@ -134,7 +137,6 @@ export default class GameScene extends Phaser.Scene {
     this.player.unit.y = this.arena.heightInPixels - 25;
   }
 
-
   update() {
     if (this.stat !== -5) {
       this.stat = this.player.update();
@@ -145,7 +147,6 @@ export default class GameScene extends Phaser.Scene {
       this.matchLoop();
     }
   }
-
 };
 
 // On player defeat show game over screen <--

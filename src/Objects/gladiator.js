@@ -163,7 +163,7 @@ export default class Gladiator extends Unit {
         return super.update();
         break;
       }
-      default: this.destroy(); return super.update();
+      default: return super.update();
     }
   };
 };

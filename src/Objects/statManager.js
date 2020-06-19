@@ -45,6 +45,11 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.button2.destroy();
     this.button3.destroy();
     this.button4.destroy();
+    this.destroyText();
+  };
+
+
+  destroyText() {
     this.textSpeed.destroy();
     this.textHp.destroy();
     this.textAtk.destroy();
@@ -72,12 +77,18 @@ export default class statManager extends Phaser.GameObjects.Container {
       switch (stat) {
         case 1:
           this.scene.player.speed += 10;
+          this.destroyText();
+          this.loadStatusText();
           break;
         case 2:
           this.scene.player.hp += 20;
+          this.destroyText();
+          this.loadStatusText();
           break;
         case 3:
           this.scene.player.atk += 5;
+          this.destroyText();
+          this.loadStatusText();
           break;
         default:
       };
