@@ -21,33 +21,6 @@ export default class Gladiator extends Unit {
   };
 
   initAnimation() {
-    this.scene.anims.create({
-      key: 'walkG',
-      frames: this.scene.anims.generateFrameNumbers('gladiator', {
-        start: 9,
-        end: 15
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: 'attkG',
-      frames: this.scene.anims.generateFrameNumbers('gladiator', {
-        start: 16,
-        end: 22
-      }),
-      frameRate: 6,
-      repeat: false
-    });
-    this.scene.anims.create({
-      key: 'incGladiator',
-      frames: this.scene.anims.generateFrameNumbers('gladiator', {
-        start: 23,
-        end: 25
-      }),
-      frameRate: 1,
-      repeat: true
-    });
     this.unit.on('animationcomplete_attkG', (anim, frame) => {
       this.attack(anim, frame)
     });

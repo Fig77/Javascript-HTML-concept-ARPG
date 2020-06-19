@@ -3,16 +3,21 @@ import config from '../Config/config';
 import unit from '../Objects/Unit';
 import character from '../Objects/character';
 import gladiator from '../Objects/gladiator';
-import statsUi from '../Objects/statManager'
+import statsUi from '../Objects/statManager';
+import sceneAnimations from './SceneHelper';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
-  preload() {}
+  preload() {
+    // Loading a few things here that will be constant irrelevant to the state of the scene.
+    // therefore will not be created again on restart.
+    this.mapInit(); // initialize map, camera and collider.
+  }
 
-  mapInit() {
-    this.arena = this.make.tilemap({
+  mapInit() { //EVERYTHING HERE THAT DOES NOT HAVE A THIS CAN OR MAY BE CREATED ON STATIC PRELOADER
+    this.arena = this.make.tilemap({ 
       key: 'arena'
     });
     const terrain = this.arena.addTilesetImage("Dungeon_Tileset", "layout");
@@ -86,7 +91,6 @@ export default class GameScene extends Phaser.Scene {
     this.match = false;
     this.stat = false;
     this.playerTarget = null;
-    this.mapInit(); // initialize map, camera and collider
     this.playerInit(); // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
     //Ui Setups
@@ -104,7 +108,7 @@ export default class GameScene extends Phaser.Scene {
     } else {
       this.player.destroy();
       
-      this.scene.restart();
+      this.scene.start('Title');
       // this.scene.start('Title');
     }
     if (this.match) {

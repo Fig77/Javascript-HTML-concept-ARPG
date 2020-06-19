@@ -30,34 +30,6 @@ export default class Player extends Unit {
   };
 
   initAnimation() {
-    this.scene.anims.create({
-      key: 'walk',
-      frames: this.scene.anims.generateFrameNumbers('adventurer', {
-        start: 16,
-        end: 22
-      }),
-      frameRate: 10,
-      repeat: -1
-    });
-    this.scene.anims.create({
-      key: 'idle',
-      frames: this.scene.anims.generateFrameNumbers('adventurer', {
-        start: 0,
-        end: 12
-      }),
-      frameRate: 6,
-      repeat: false
-    });
-
-    this.scene.anims.create({
-      key: 'advatk1',
-      frames: this.scene.anims.generateFrameNumbers('adventurer', {
-        start: 32,
-        end: 39
-      }),
-      frameRate: 6,
-      repeat: false
-    });
     this.unit.on('animationcomplete_advatk1', (anim, frame) => {
       this.attack(anim, frame)
     });

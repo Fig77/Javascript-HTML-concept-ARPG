@@ -1,5 +1,5 @@
 import 'phaser';
-
+import sceneAnimations from './SceneHelper';
 export default class PreloaderScene extends Phaser.Scene {
   constructor() {
     super('Preloader');
@@ -95,12 +95,18 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32
     });
+    
+    
+    // initialize map, camera and collider.
   }
 
   ready() {
+         console.log(this.scene.manager.scenes);
+      sceneAnimations.animCreate(this.scene.manager.scenes[5]);
     this.scene.start('Title');
     this.readyCount++;
     if (this.readyCount === 2) {
+ 
       this.scene.start('Title');
     }
   }
