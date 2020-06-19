@@ -146,6 +146,7 @@ export default class Gladiator extends Unit {
     switch (state) {
       case 0: {
         this.chase(target);
+        return super.update();
         break;
       }
       case 1: {
@@ -155,13 +156,14 @@ export default class Gladiator extends Unit {
         } else {
           super.setState(0);
         }
+        return super.update();
         break;
       }
       case -1: {
-        super.update();
+        return super.update();
         break;
       }
-      default:
+      default: this.destroy(); return super.update();
     }
   };
 };

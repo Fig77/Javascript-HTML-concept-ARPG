@@ -17,7 +17,7 @@ export default class GameScene extends Phaser.Scene {
   }
 
   mapInit() { //EVERYTHING HERE THAT DOES NOT HAVE A THIS CAN OR MAY BE CREATED ON STATIC PRELOADER
-    this.arena = this.make.tilemap({ 
+    this.arena = this.make.tilemap({
       key: 'arena'
     });
     const terrain = this.arena.addTilesetImage("Dungeon_Tileset", "layout");
@@ -48,6 +48,7 @@ export default class GameScene extends Phaser.Scene {
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
       this.enemyGroup[i] = gladiador;
+      this.enemyCounter += 1;
       i += 1;
     }
   };
@@ -95,48 +96,56 @@ export default class GameScene extends Phaser.Scene {
     this.enemyGroup = new Array(3); // Empty array of enemies.
     //Ui Setups
     this.statmanager = new statsUi(this);
+    this.enemyCounter = 0;
     // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
-
   };
+
+  matchLoop() {
+    let tempEnemy = null;
+    let tempUpdate = null;
+    let i = 0;
+    while (i < 3) {
+      if (this.enemyCounter <= 0) {
+        this.levelUp();
+      }
+      tempEnemy = this.enemyGroup[i];
+      if (tempEnemy === null || tempEnemy === undefined) {
+
+      } else {
+        tempUpdate = this.enemyGroup[i].update();
+        if (tempUpdate === -5) {
+          this.player.pendingStat += 5;
+          this.enemyCounter -= 1;
+          this.score += 10;
+          tempEnemy.destroy();
+          tempEnemy = null;
+        }
+      }
+      i += 1;
+    }
+  }
+
+  levelUp() {
+    this.match = false;
+    this.player.unit.x = this.arena.widthInPixels / 2;
+    this.player.unit.y = this.arena.heightInPixels - 25;
+  }
+
 
   update() {
     if (this.stat !== -5) {
       this.stat = this.player.update();
     } else {
       this.player.destroy();
-      
-      this.scene.start('Title');
-      // this.scene.start('Title');
     }
     if (this.match) {
-      let i = 0;
-      while (i < this.enemyGroup.length) {
-        if (this.enemyGroup[i] === null || this.enemyGroup[i] === undefined) {
-          break;
-        };
-        this.enemyGroup[i].update();
-        i += 1;
-      };
-    }
-  };
-
-  getStats() {
-    return {
-      playerStats: this.player.getUnitStats(),
-      gameStates: {
-        score: this.score
-      }
+      this.matchLoop();
     }
   }
 
-  customRestart() {
-    // Will just reset some variables to default and get the scene going from 0, without creating
-    // or defining anything that is the same no matter what.
-
-  };
 };
 
 // On player defeat show game over screen <--
