@@ -10,7 +10,7 @@ export default class Player extends Unit {
       callback: this.toggleIddle,
       callbackScope: this
     };
-    //this.initAnimation();
+    this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.unit.body.setSize(this.unit.width - 3, this.unit.height - 4, true);
     this.pendingStat = 0;
@@ -150,7 +150,10 @@ export default class Player extends Unit {
   };
 
   update() {
-    super.update();
+    let state = super.update();
+    if (state === -5) {
+       return state;
+    }
     this.move();
   };
 };

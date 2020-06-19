@@ -19,19 +19,17 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     // sprite
     this.unit = scene.physics.add.sprite(x, y, spritekey);
     this.unit.body.setSize(17, 22, true);
-    this.flipped = false;
+    this.flipped = false; // false facing right
     this.walking = false;
-    this.state = 0; // 0 = active, -1 = incapacitate, 1 = enraged
+    this.state = 0; // 0 = active, -1 = incapacitate, 1 = attacks
     this.manualBouncingX = 0; // I've look for another way but whatever, going manual.
     this.bounceSpeed = 100;
-    this.initAnimation();
-  };
-
-  initAnimation() {
     this.unit.on('animationcomplete', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
       this.emit('animationcomplete_' + anim.key, anim, frame);
     }, this.unit);
-  }
+  };
+
+  initAnimation() {}
 
   // state manager
 
@@ -40,19 +38,31 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   }
 
   setState(state) {
-    this.state = -1;
+    this.state = state;
   }
 
   update() {
-    this.toggleDead();
+    if (this.toggleDead()) {
+      return -5;
+    }
     switch (this.state) {
       case 0: {
+        return this.state;
       }
       case 1: {
+        return this.state;
       }
       case -1: {
+        if (this.manualBouncingX != 0) {
+          this.bounceOnVariable();
+          this.manualBouncingX -= 1;
+        } else {
+          this.setState(0);
+        }
+        return this.state;
       }
-      default: return this.state;
+      default:
+        return this.state;
     }
   };
 
@@ -69,8 +79,17 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     }
   };
 
-  movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
+  fliponTarget(target) {
+    if (!this.flipped) {
+      if (this.unit.x > target.x) {
+        this.movingSprite(0, 0, -1, 1, true);
+      }
+    } else if (this.unit.x < target.x) {
+      this.movingSprite(0, 0, 1, 1, false);
+    }
+  };
 
+  movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
     this.unit.setVelocityY(y);
     this.unit.setVelocityX(x);
     this.unit.setScale(sx, sy);
@@ -100,8 +119,8 @@ export default class Unit extends Phaser.GameObjects.Sprite {
 
   attack(attacks) {
     attacks.setBounce(250 * this.atk / 10);
-    attacks.setState(-1);
     attacks.takeDamage(this.atk); // makes enemy takes damage.
+    this.setState(-1);
   };
 
   takeDamage(d) {
@@ -127,11 +146,19 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   // death scene
   toggleDead() {
     if (this.currentHp <= 0) {
-      this.destroy();
+      return -5;
     }
   };
 
   getSprite() {
     return this.unit;
+  };
+  
+  getUnitStats() {
+    return {
+      hp: this.hp,
+      speed: this.speed,
+      atk: this.atk
+    }
   };
 };

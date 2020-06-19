@@ -38,7 +38,7 @@ export default class GameScene extends Phaser.Scene {
     let i = 0;
     let gladiador = null;
     while (i < this.score / 10) {
-      gladiador = new gladiator(this, this.arena.widthInPixels / 2+(25*i+1), 125);
+      gladiador = new gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
@@ -95,22 +95,49 @@ export default class GameScene extends Phaser.Scene {
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
-    
+
   };
 
   update() {
-    if (!this.stat) {
-      this.player.update();
+    if (this.stat !== -5) {
+      this.stat = this.player.update();
+    } else {
+      this.player.destroy();
+      
+      this.scene.restart();
+      // this.scene.start('Title');
     }
     if (this.match) {
       let i = 0;
-      while(i < this.enemyGroup.length) {
+      while (i < this.enemyGroup.length) {
         if (this.enemyGroup[i] === null || this.enemyGroup[i] === undefined) {
           break;
         };
         this.enemyGroup[i].update();
-        i +=1;
+        i += 1;
       };
     }
   };
+
+  getStats() {
+    return {
+      playerStats: this.player.getUnitStats(),
+      gameStates: {
+        score: this.score
+      }
+    }
+  }
+
+  customRestart() {
+    // Will just reset some variables to default and get the scene going from 0, without creating
+    // or defining anything that is the same no matter what.
+
+  };
 };
+
+// On player defeat show game over screen <--
+// Pause screen and switch to game over <-- done
+// get gane over layout.
+// player sprite
+// player stats
+// add go to menu and restart normally

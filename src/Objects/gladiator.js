@@ -2,10 +2,8 @@ import 'phaser';
 import Unit from '../Objects/Unit';
 
 export default class Gladiator extends Unit {
-  constructor(scene, x = 1489.0000000000239, y = 100, hp = 400, atk = 20, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
+  constructor(scene, x = 1489.0000000000239, y = 100, hp = 200, atk = 5, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text, 4.5);
-    //super.initAnimation();
-    //this.initAnimation();
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
     this.kill = scene.player;
@@ -18,8 +16,8 @@ export default class Gladiator extends Unit {
       x: x,
       y: y
     };
+    this.initAnimation();
     this.pacmanQueue = [this.chaseX, this.chaseY];
-    this.unit.bounce
   };
 
   initAnimation() {
@@ -32,17 +30,24 @@ export default class Gladiator extends Unit {
       frameRate: 10,
       repeat: -1
     });
-
     this.scene.anims.create({
       key: 'attkG',
       frames: this.scene.anims.generateFrameNumbers('gladiator', {
         start: 16,
-        end: 23
+        end: 22
       }),
       frameRate: 6,
       repeat: false
     });
-
+    this.scene.anims.create({
+      key: 'incGladiator',
+      frames: this.scene.anims.generateFrameNumbers('gladiator', {
+        start: 23,
+        end: 25
+      }),
+      frameRate: 1,
+      repeat: true
+    });
     this.unit.on('animationcomplete_attkG', (anim, frame) => {
       this.attack(anim, frame)
     });
@@ -54,7 +59,7 @@ export default class Gladiator extends Unit {
   };
 
   attack(anim, frame) {
-    if (frame > 19) {
+    if (frame.frame.name > 19) {
       super.attack(this.kill);
     }
   };
@@ -142,26 +147,56 @@ export default class Gladiator extends Unit {
     return false;
   }
 
-  chase() {
-    let target = super.absolutDistanceR(this.kill);
-    this.qElement = this.pacmanQueue[0];
-
+  onAbsoluteRange(target) {
     if (target.xa >= this.unit.body.width + 3 || target.ya >= 3) {
+      return true;
+    }
+    return false;
+  };
+
+  chase(target) {
+    this.qElement = this.pacmanQueue[0];
+    if (this.onAbsoluteRange(target)) {
       this.qElement(target);
       return true;
     } else {
       this.stop();
+      this.fliponTarget(target);
       super.setState(1);
       return false;
     }
   }
 
   update() {
-    let state = super.update()
-    if (state === 0) {
-      this.chase();
-    } else if (state === 1) {
-      this.unit.anims.play('attkG', true);
+    let state = this.state;
+    let target = super.absolutDistanceR(this.kill);
+    switch (state) {
+      case 0: {
+        this.chase(target);
+        break;
+      }
+      case 1: {
+        super.fliponTarget(this.kill.unit);
+        if (!this.onAbsoluteRange(target)) {
+          this.unit.anims.play('attkG', true);
+        } else {
+          super.setState(0);
+        }
+        break;
+      }
+      case -1: {
+        super.update();
+        break;
+      }
+      default:
     }
   };
 };
+
+// Fix direction of attack  <-  done
+// add boolcheck for if still in range <- done
+// re-add the bouncing on damage <-- done
+// fix correct unit damage output toplayer. <-- doneish
+// add incapacitate sprite <-- posponed
+//GOING TO SCENE MANAGER <<<<<
+// add the attack send signal after animation complete or else. import 'phaser';
