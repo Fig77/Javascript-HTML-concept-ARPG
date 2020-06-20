@@ -116,7 +116,6 @@ export default class GameScene extends Phaser.Scene {
       }
       tempEnemy = this.enemyGroup[i];
       if (tempEnemy === null || tempEnemy === undefined) {
-
       } else {
         tempUpdate = this.enemyGroup[i].update();
         if (tempUpdate === -5) {
@@ -147,17 +146,10 @@ export default class GameScene extends Phaser.Scene {
     if (this.status !== -5) {
       this.status = this.player.update();
     } else {
-      this.player.destroy();
+      this.scene.start('GameOver', { score:this.score, player:this.player});
     }
     if (this.match) {
       this.matchLoop();
     }
   }
 };
-
-// On player defeat show game over screen <--
-// Pause screen and switch to game over <-- done
-// get gane over layout.
-// player sprite
-// player stats
-// add go to menu and restart normally

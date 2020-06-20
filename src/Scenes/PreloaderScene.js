@@ -18,7 +18,7 @@ export default class PreloaderScene extends Phaser.Scene {
     var progressBox = this.add.graphics();
     progressBox.fillStyle(0x222222, 0.8);
     progressBox.fillRect(240, 270, 320, 50);
-    
+
     var width = this.cameras.main.width;
     var height = this.cameras.main.height;
     var loadingText = this.make.text({
@@ -95,18 +95,17 @@ export default class PreloaderScene extends Phaser.Scene {
       frameWidth: 32,
       frameHeight: 32
     });
-    
-    
+
+
     // initialize map, camera and collider.
   }
 
   ready() {
-         console.log(this.scene.manager.scenes);
-      sceneAnimations.animCreate(this.scene.manager.scenes[5]);
+    sceneAnimations.animCreate(this.scene.manager.scenes[5]);
     this.scene.start('Title');
     this.readyCount++;
     if (this.readyCount === 2) {
- 
+
       this.scene.start('Title');
     }
   }
