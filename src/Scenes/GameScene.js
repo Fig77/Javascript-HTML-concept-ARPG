@@ -59,7 +59,7 @@ export default class GameScene extends Phaser.Scene {
       this.player.unit.y -= 125;
       this.match = true;
       this.addEnemies();
-      this.statBoxManager();
+      //this.statBoxManager();
     }
   };
 
@@ -83,7 +83,7 @@ export default class GameScene extends Phaser.Scene {
     if (this.stat) {
       this.statmanager.destroyMe();
       this.stat = false;
-    } else if (!this.match) {
+    } else if (!this.stat) {
       this.statmanager.initManager();
       this.stat = true;
     }
@@ -138,8 +138,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    if (this.stat !== -5) {
-      this.stat = this.player.update();
+    let status = null;
+    if (this.status !== -5) {
+      this.status = this.player.update();
     } else {
       this.player.destroy();
     }

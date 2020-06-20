@@ -48,14 +48,13 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.destroyText();
   };
 
-
   destroyText() {
     this.textSpeed.destroy();
     this.textHp.destroy();
     this.textAtk.destroy();
     this.textCurrent.destroy();
     this.textPoints.destroy();
-  };
+  }
 
   boundEvent() {
     this.button1.on('pointerdown', function () {
@@ -76,28 +75,30 @@ export default class statManager extends Phaser.GameObjects.Container {
     if (this.scene.player.pendingStat !== 0) {
       switch (stat) {
         case 1:
-          this.scene.player.speed += 10;
+          this.scene.player.speed += 1;
+          this.scene.player.pendingStat -= 1;
           this.destroyText();
           this.loadStatusText();
           break;
         case 2:
-          this.scene.player.hp += 20;
+          this.scene.player.hp += 1;
+          this.scene.player.pendingStat -= 1;
           this.destroyText();
           this.loadStatusText();
           break;
         case 3:
-          this.scene.player.atk += 5;
+          this.scene.player.atk += 1;
+          this.scene.player.pendingStat -= 1;
           this.destroyText();
           this.loadStatusText();
           break;
+        case 4:
+          this.scene.player.currentHp = this.scene.player.hp;
+          this.scene.player.pendingStat -= 1;
+          this.destroyText();
+          this.loadStatusText();
         default:
       };
     }
   }
-
-  toggleDead() {
-    if (this.currentHp <= 0) {
-      this.destroy();
-    }
-  };
 };
