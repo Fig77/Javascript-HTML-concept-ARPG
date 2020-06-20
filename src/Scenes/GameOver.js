@@ -26,7 +26,7 @@ export default class GameOver extends Phaser.Scene {
         fill: '#fff'
       });
     }
-    this.jsonPost = JSON.stringify({"name": "Tester", "score":`${this.score}`});
+    this.jsonPost = JSON.stringify({"user": "Tester", "score":`${this.score}`});
     this.unit = this.physics.add.sprite(this.player.unit);
     this.unit.x = 55 + 250;
     this.unit.y = 110;

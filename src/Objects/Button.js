@@ -22,7 +22,8 @@ export default class Button extends Phaser.GameObjects.Container {
       if (callback === null) {
         this.scene.scene.start(targetScene);
       } else {
-        model.postRequest(callback)
+        model.postRequest(callback);
+        this.scene.scene.start(targetScene);
       }
     }.bind(this));
 

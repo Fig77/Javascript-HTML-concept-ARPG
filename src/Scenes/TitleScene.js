@@ -1,5 +1,6 @@
 import 'phaser';
 import config from '../Config/config';
+import model from '../Model';
 import Button from '../Objects/Button';
 
 export default class TitleScene extends Phaser.Scene {
@@ -24,6 +25,7 @@ export default class TitleScene extends Phaser.Scene {
       this.model.bgMusicPlaying = true;
       this.sys.game.globals.bgMusic = this.bgMusic;
     }
+    model.updateScoreBoard();
   }
 
   centerButton (gameObject, offset = 0) {
