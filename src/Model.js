@@ -1,31 +1,9 @@
-export default class Model {
-  constructor() {
-    this._soundOn = true;
-    this._musicOn = false;
-    this._bgMusicPlaying = false;
-  }
+const model = (() => {
+  const baseApiUrl = "https://us-central1-js-capstone-backend.cloudfunctions.net/api/";
 
-  set musicOn(value) {
-    this._musicOn = value;
+  return {
+    baseApiUrl
   }
+})();
 
-  get musicOn() {
-    return this._musicOn;
-  }
-
-  set soundOn(value) {
-    this._soundOn = value;
-  }
-
-  get soundOn() {
-    return this._soundOn;
-  }
-
-  set bgMusicPlaying(value) {
-    this._bgMusicPlaying = value;
-  }
-
-  get bgMusicPlaying() {
-    return this._bgMusicPlaying;
-  }
-}
+export default model;
