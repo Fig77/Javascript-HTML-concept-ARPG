@@ -11,12 +11,10 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
   preload() {
-    // Loading a few things here that will be constant irrelevant to the state of the scene.
-    // therefore will not be created again on restart.
     this.mapInit(); // initialize map, camera and collider.
   }
 
-  mapInit() { //EVERYTHING HERE THAT DOES NOT HAVE A THIS CAN OR MAY BE CREATED ON STATIC PRELOADER
+  mapInit() {
     this.arena = this.make.tilemap({
       key: 'arena'
     });
@@ -43,7 +41,7 @@ export default class GameScene extends Phaser.Scene {
     let i = 0;
     let gladiador = null;
     this.enemyCounter = 0;
-    while (i < this.score / 10) {
+    while (i < this.currentNumber) {
       gladiador = new gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
@@ -59,7 +57,7 @@ export default class GameScene extends Phaser.Scene {
       this.player.unit.y -= 125;
       this.match = true;
       this.addEnemies();
-      //this.statBoxManager();
+      this.statBoxManager();
     }
   };
 
@@ -83,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
     if (this.stat) {
       this.statmanager.destroyMe();
       this.stat = false;
-    } else if (!this.stat) {
+    } else if (!this.stat && !this.match) {
       this.statmanager.initManager();
       this.stat = true;
     }
@@ -94,11 +92,13 @@ export default class GameScene extends Phaser.Scene {
     this.match = false;
     this.stat = false;
     this.playerTarget = null;
+    this.maxEnemies = 3;
+    this.currentNumber = 1;
     this.playerInit(); // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
     //Ui Setups
     this.statmanager = new statsUi(this);
-    this.enemyCounter = 0;
+    this.enemyCounter = 1;
     // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
@@ -109,9 +109,10 @@ export default class GameScene extends Phaser.Scene {
     let tempEnemy = null;
     let tempUpdate = null;
     let i = 0;
-    while (i < 3) {
+    while (i < this.maxEnemies) {
       if (this.enemyCounter <= 0) {
         this.levelUp();
+        break;
       }
       tempEnemy = this.enemyGroup[i];
       if (tempEnemy === null || tempEnemy === undefined) {
@@ -135,6 +136,10 @@ export default class GameScene extends Phaser.Scene {
     this.match = false;
     this.player.unit.x = this.arena.widthInPixels / 2;
     this.player.unit.y = this.arena.heightInPixels - 25;
+    this.currentNumber += 1;
+    if (this.currentNumber >= this.maxEnemies + 1) {
+      this.currentNumber = 1;
+    }
   }
 
   update() {
