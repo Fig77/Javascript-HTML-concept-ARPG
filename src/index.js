@@ -30,3 +30,5 @@ class Game extends Phaser.Game {
 model.getRequest();
 window.game = new Game();
 
+
+//   "type": "module",
