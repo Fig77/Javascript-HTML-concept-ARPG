@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.3",
+    "babel-loader": "^8.1.0",
     "style-loader": "^1.2.1"
   }
 }
