@@ -8,12 +8,10 @@ import sceneAnimations from './SceneHelper';
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
-    
   }
 
   preload() {
     // initialize map, camera and collider.
-    this.mapInit();
   }
 
   mapInit() {
@@ -109,6 +107,7 @@ export default class GameScene extends Phaser.Scene {
     this.playerTarget = null;
     this.maxEnemies = 3;
     this.currentNumber = 1;
+    this.mapInit();
     this.playerInit(); // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
     //Ui Setups

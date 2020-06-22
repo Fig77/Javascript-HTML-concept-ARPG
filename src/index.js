@@ -7,14 +7,13 @@ import TitleScene from './Scenes/TitleScene';
 import OptionsScene from './Scenes/OptionsScene';
 import CreditsScene from './Scenes/CreditsScene';
 import GameOver from './Scenes/GameOver';
-import model from './Model';
+import {getRequest} from './Model';
 import './main.css';
 
 class Game extends Phaser.Game {
   constructor() {
     super(config);
     this.globals = {
-      model,
       bgMusic: null
     };
     this.scene.add('Boot', BootScene);
@@ -27,7 +26,7 @@ class Game extends Phaser.Game {
     this.scene.start('Boot');
   }
 }
-model.getRequest();
+console.log(getRequest());
 window.game = new Game();
 
 
