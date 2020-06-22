@@ -11,9 +11,12 @@ import model from './Model';
 import './main.css';
 
 class Game extends Phaser.Game {
-  constructor () {
+  constructor() {
     super(config);
-    this.globals = { model, bgMusic: null };
+    this.globals = {
+      model,
+      bgMusic: null
+    };
     this.scene.add('Boot', BootScene);
     this.scene.add('Preloader', PreloaderScene);
     this.scene.add('Title', TitleScene);
@@ -24,5 +27,6 @@ class Game extends Phaser.Game {
     this.scene.start('Boot');
   }
 }
-
+model.getRequest();
 window.game = new Game();
+

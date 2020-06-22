@@ -8,6 +8,10 @@ export default class GameOver extends Phaser.Scene {
   }
   preload() {}
 
+  submitScore() {
+    document.querySelector('h2').insertAdjacentHTML('afterend', `<input type: 'text></input>`);
+  };
+
   create(score) {
     this.score = score.score;
     this.player = score.player;
@@ -21,17 +25,17 @@ export default class GameOver extends Phaser.Scene {
     });
     let keys = [`Max Hp: ${this.player.hp}`, `Max Atk: ${this.player.atk}`, `Max Speed: ${this.player.speed}`]
     for (let i = 0; i < 3; i++) {
-      this.add.text(55, 135+40*(i+1), keys[i], {
+      this.add.text(55, 135 + 40 * (i + 1), keys[i], {
         fontSize: '32px',
         fill: '#fff'
       });
     }
-    this.jsonPost = JSON.stringify({"user": "Tester", "score":`${this.score}`});
     this.unit = this.physics.add.sprite(this.player.unit);
     this.unit.x = 55 + 250;
     this.unit.y = 110;
     this.unit.anims.play('idle');
-    this.submit = new Button(this, config.width / 2, config.height / 2 + 100, 'blueButton1', 'blueButton2', 'Submit', 'Title',this.jsonPost);
+    //this.submitScore()
+    this.submit = new Button(this, config.width / 2, config.height / 2 + 100, 'blueButton1', 'blueButton2', 'Submit', 'Title', this.jsonPost);
     this.gameButton = new Button(this, config.width / 2, config.height / 2 + 200, 'blueButton1', 'blueButton2', 'Menu', 'Title');
   }
 }

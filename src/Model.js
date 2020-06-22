@@ -12,23 +12,25 @@ const model = (() => {
     const response = raw;
     return response;
   };
-  const getRequest = async () => {
-    const raw = await fetch(`${baseApiUrl}`, {
+
+  const getRequest = () => {
+    let response = ''
+    fetch(`${baseApiUrl}`, {
       mode: 'cors',
-    });
-    const response = await raw;
-    return response;
+    }).then((resp) => resp.json()).then((resp) => {
+       updateScoreBoard(resp);
+    }).catch(function (error) {});
+  }
+
+  const updateScoreBoard = (resp) => {
+    
+    let i = 0
+    while (i < resp.result['length']) {
+      document.getElementById('ul').insertAdjacentHTML('afterbegin', `<li class='li'><span>${resp.result[i].user}</span><span>${resp.result[i].score}</span></li>`);
+      i += 1;
+    }
   };
-  const updateScoreBoard = () => {
-    getRequest().then((response) => {
-      if (response.status === 200) {
-        console.log(JSON.stringify(response.json()));
-      } else {
-        console.log('0');
-        location.innerHTML = response.message;
-      }
-    });
-  };
+
   return {
     getRequest,
     postRequest,

@@ -1,4 +1,3 @@
-import 'phaser';
 import config from '../Config/config';
 import unit from '../Objects/Unit';
 import character from '../Objects/character';
@@ -10,11 +9,15 @@ export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
+
   preload() {
     this.mapInit(); // initialize map, camera and collider.
   }
 
   mapInit() {
+    // this.arena = tilemap
+    // get
+    
     this.arena = this.make.tilemap({
       key: 'arena'
     });
@@ -41,6 +44,7 @@ export default class GameScene extends Phaser.Scene {
     let i = 0;
     let gladiador = null;
     this.enemyCounter = 0;
+    let spriteAux = []
     while (i < this.currentNumber) {
       gladiador = new gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
@@ -49,6 +53,14 @@ export default class GameScene extends Phaser.Scene {
       this.enemyGroup[i] = gladiador;
       this.enemyCounter += 1;
       i += 1;
+    }
+    if (i === 2) {
+      this.physics.add.collider(this.enemyGroup[0].getSprite(), this.enemyGroup[1].getSprite());
+    }
+    if (i === 3) {
+      this.physics.add.collider(this.enemyGroup[0].getSprite(), this.enemyGroup[1].getSprite());
+      this.physics.add.collider(this.enemyGroup[0].getSprite(), this.enemyGroup[2].getSprite());
+      this.physics.add.collider(this.enemyGroup[1].getSprite(), this.enemyGroup[2].getSprite());
     }
   };
 
@@ -89,6 +101,7 @@ export default class GameScene extends Phaser.Scene {
 
   create() {
     this.score = 10;
+    this.round = 1;
     this.match = false;
     this.stat = false;
     this.playerTarget = null;
@@ -99,10 +112,12 @@ export default class GameScene extends Phaser.Scene {
     //Ui Setups
     this.statmanager = new statsUi(this);
     this.enemyCounter = 1;
+    this.physicsGroupEnemies = null;
     // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
+    this.physics.world.setFPS(120);
   };
 
   matchLoop() {
@@ -115,8 +130,7 @@ export default class GameScene extends Phaser.Scene {
         break;
       }
       tempEnemy = this.enemyGroup[i];
-      if (tempEnemy === null || tempEnemy === undefined) {
-      } else {
+      if (tempEnemy === null || tempEnemy === undefined) {} else {
         tempUpdate = this.enemyGroup[i].update();
         if (tempUpdate === -5) {
           this.player.pendingStat += 5;
@@ -139,14 +153,19 @@ export default class GameScene extends Phaser.Scene {
     if (this.currentNumber >= this.maxEnemies + 1) {
       this.currentNumber = 1;
     }
+    this.round += 1;
   }
 
   update() {
+    this.statmanager.drawIngameUi();
     let status = null;
     if (this.status !== -5) {
       this.status = this.player.update();
     } else {
-      this.scene.start('GameOver', { score:this.score, player:this.player});
+      this.scene.start('GameOver', {
+        score: this.score,
+        player: this.player
+      });
     }
     if (this.match) {
       this.matchLoop();

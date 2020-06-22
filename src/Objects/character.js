@@ -2,7 +2,7 @@ import 'phaser';
 import Unit from '../Objects/Unit';
 
 export default class Player extends Unit {
-  constructor(scene, x = 409, y = 590, hp = 1, atk = 210, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
+  constructor(scene, x = 409, y = 590, hp = 1, atk = 15, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.idleConfig = {
@@ -24,14 +24,14 @@ export default class Player extends Unit {
       this.speed -= 50;
     });
     this.scene.input.keyboard.on('keydown_A', () => { //this has to be change since it should not be on complete.
-    this.unit.anims.play('advatk1', true);
+      this.unit.anims.play('advatk1', true);
     });
     this.lastFramAtk = -1;
   };
 
   initAnimation() {
-    this.unit.on('animationcomplete_advatk1', (anim, frame) => {
-      this.attack(anim, frame)
+    this.unit.on('animationupdate_advatk1', (anim, frame) => {
+        this.attack(anim, frame);
     });
   };
 
@@ -113,7 +113,7 @@ export default class Player extends Unit {
 
   attack(anim, frame) {
     let target = this.getTarget();
-    if (frame.textureFrame >= 34) {
+    if (frame.textureFrame === 34) {
       if (target !== false) {
         super.attack(target);
       }

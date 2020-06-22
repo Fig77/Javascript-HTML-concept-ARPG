@@ -18,7 +18,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.mod_def = mod_def;
     // sprite
     this.unit = scene.physics.add.sprite(x, y, spritekey);
-    this.unit.body.setSize(17, 22, true);
+    this.unit.body.setSize(15, 22, true);
     this.flipped = false; // false facing right
     this.walking = false;
     this.state = 0; // 0 = active, -1 = incapacitate, 1 = attacks
@@ -27,11 +27,13 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.on('animationcomplete', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
       this.emit('animationcomplete_' + anim.key, anim, frame);
     }, this.unit);
+
+    this.unit.on('animationupdate', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
+      this.emit('animationupdate_' + anim.key, anim, frame);
+    }, this.unit);
   };
 
   initAnimation() {}
-
-  // state manager
 
   getState() {
     return this.state;
@@ -153,7 +155,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   getSprite() {
     return this.unit;
   };
-  
+
   getUnitStats() {
     return {
       hp: this.hp,

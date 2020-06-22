@@ -7,10 +7,9 @@ export default class Gladiator extends Unit {
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
     this.kill = scene.player;
-    this.attack_range = 5;
-    this.speed = 60;
+    this.speed = 96;
     this.dire = 1;
-    this.unit.body.setImmovable(true);
+    this.unit.body.setBounce(1);
     this.dX = 0;
     this.last = {
       x: x,
@@ -18,7 +17,14 @@ export default class Gladiator extends Unit {
     };
     this.initAnimation();
     this.pacmanQueue = [this.chaseX, this.chaseY];
+    this.updatPerRound();
   };
+
+  updatPerRound() {
+    this.hp += this.scene.round * 5
+    this.atk += this.scene.round * 3
+    this.speed += this.scene.round * 2
+  }
 
   initAnimation() {
     this.unit.on('animationcomplete_attkG', (anim, frame) => {
@@ -149,6 +155,10 @@ export default class Gladiator extends Unit {
         return super.update();
         break;
       }
+      case -1: {
+        return super.update();
+        break;
+      }
       case 1: {
         super.fliponTarget(this.kill.unit);
         if (!this.onAbsoluteRange(target)) {
@@ -159,19 +169,8 @@ export default class Gladiator extends Unit {
         return super.update();
         break;
       }
-      case -1: {
+      default:
         return super.update();
-        break;
-      }
-      default: return super.update();
     }
   };
 };
-
-// Fix direction of attack  <-  done
-// add boolcheck for if still in range <- done
-// re-add the bouncing on damage <-- done
-// fix correct unit damage output toplayer. <-- doneish
-// add incapacitate sprite <-- posponed
-//GOING TO SCENE MANAGER <<<<<
-// add the attack send signal after animation complete or else. import 'phaser';

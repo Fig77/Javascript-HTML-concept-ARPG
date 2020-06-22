@@ -4,10 +4,11 @@ export default class statManager extends Phaser.GameObjects.Container {
   constructor(scene) {
     super(scene);
     this.scene = scene;
+    this.drawed = false;
   }
 
   initManager() {
-    this.box = this.scene.add.image(this.scene.arena.widthInPixels - 165, this.scene.arena.heightInPixels - 130, 'statbox');
+    this.box = this.scene.add.image(this.scene.cameras.main.worldView.x + 565, this.scene.cameras.main.worldView.y + 430, 'statbox');
     this.button1 = this.scene.add.image(this.box.x + 35, this.box.y - 100, 'arrow').setInteractive();
     this.button2 = this.scene.add.image(this.box.x + 35, this.box.y - 60, 'arrow').setInteractive();
     this.button3 = this.scene.add.image(this.box.x + 35, this.box.y - 20, 'arrow').setInteractive();
@@ -15,6 +16,21 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.loadStatusText();
     this.boundEvent();
   };
+
+  clearInGameUi() {
+    this.currentHpp.destroy();
+    this.drawed = false;
+  }
+  drawIngameUi() {
+    if (this.drawed) {
+      this.clearInGameUi();
+    }
+    this.drawed = true;
+    this.currentHpp= this.scene.add.text(this.scene.cameras.main.worldView.x + 20, this.scene.cameras.main.worldView.y + 15, `Currenr Hp: ${this.scene.player.currentHp}`, {
+      fontSize: '19px',
+      fill: '#fff'
+    });
+  }
 
   loadStatusText() {
     this.textSpeed = this.scene.add.text(this.box.x - 85, this.box.y - 105, 'Speed: ' + this.scene.player.speed, {
