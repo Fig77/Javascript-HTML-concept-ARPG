@@ -26,7 +26,8 @@ export default class Button extends Phaser.GameObjects.Container {
         if (document.querySelector('#username').value !== '') {
           user = document.querySelector('#username').value;
         }
-        // postRequest({user:`${user}`, score: callback});
+        this.scoreData = {user:`${user}`, score: callback};
+        postRequest(this.scoreData);
         this.scene.scene.destroy('Game');
         this.scene.scene.start('Game');
       }
