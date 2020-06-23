@@ -10,7 +10,7 @@
   },
   "jest": {
     "setupFiles": [
-      "jest-canvas-mock"
+      
     ]
   },
   "repository": {
@@ -36,6 +36,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.10.3",
+    "axios": "^0.19.2",
     "babel-loader": "^8.1.0",
     "core-js": "^3.6.5",
     "style-loader": "^1.2.1"
