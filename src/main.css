@@ -20,7 +20,7 @@ div {
 }
 
 ul {
-  max-height: 50px;
+  max-height: 100px;
   list-style: none;
   overflow-y: scroll;
   padding-left: 0;

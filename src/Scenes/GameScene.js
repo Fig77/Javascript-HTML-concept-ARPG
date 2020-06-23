@@ -9,6 +9,13 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
+  preload() {
+    this.input.keyboard.on('keydown_SPACE', () => {
+      this.statBoxManager();
+    });
+    this.mapInit();
+  }
+
   mapInit() {
     this.arena = this.make.tilemap({
       key: 'arena',
@@ -57,6 +64,7 @@ export default class GameScene extends Phaser.Scene {
     while (i < this.currentNumber) {
       gladiador = new Gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
+      gladiador.updateStats(this.score/5);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
       this.enemyGroup[i] = gladiador;
@@ -91,7 +99,6 @@ export default class GameScene extends Phaser.Scene {
     this.playerTarget = null;
     this.maxEnemies = 3;
     this.currentNumber = 1;
-    this.mapInit();
     this.playerInit(); // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
     // Ui Setups
@@ -100,9 +107,7 @@ export default class GameScene extends Phaser.Scene {
     this.physicsGroupEnemies = null;
 
     // Scene input managment
-    this.input.keyboard.on('keydown_SPACE', () => {
-      this.statBoxManager();
-    });
+
     this.physics.world.setFPS(120);
   }
 
@@ -125,7 +130,9 @@ export default class GameScene extends Phaser.Scene {
         break;
       }
       tempEnemy = this.enemyGroup[i];
-      if (tempEnemy === null || tempEnemy === undefined) { ''; } else {
+      if (tempEnemy === null || tempEnemy === undefined) {
+        '';
+      } else {
         tempUpdate = this.enemyGroup[i].update();
         if (tempUpdate === -5) {
           this.player.pendingStat += 5;
@@ -160,9 +167,22 @@ export default class GameScene extends Phaser.Scene {
         score: this.score,
         player: this.player,
       });
+      this.resetGame();
     }
     if (this.match) {
       this.matchLoop();
     }
   }
+
+  resetGame() {
+    this.player.destroy();
+    let i = 0;
+    while (i < this.enemyGroup[i]) {
+      this.enemyGroup[i].destroy();
+      i += 1;
+    }
+    console.log('ah');
+    this.status = 0;
+    this.create();
+  };
 }

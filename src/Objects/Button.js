@@ -28,7 +28,6 @@ export default class Button extends Phaser.GameObjects.Container {
         }
         this.scoreData = {user:`${user}`, score: callback};
         postRequest(this.scoreData);
-        this.scene.scene.destroy('Game');
         this.scene.scene.start('Game');
       }
     });
