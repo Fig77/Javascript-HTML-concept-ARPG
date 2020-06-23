@@ -1,4 +1,4 @@
-"use strict";
+const model = (() => {
 
   const baseApiUrl = "https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/x2mheK9ynuj1B6F38TME/scores";
 
@@ -7,7 +7,7 @@
     fetch(`${baseApiUrl}`, {
       mode: 'cors',
     }).then((resp) => resp.json()).then((resp) => {
-      console.log(resp);
+      updateScoreBoard(resp);
     }).catch(function (error) {});
   };
 
@@ -31,5 +31,10 @@
     const response = raw;
     return response;
   };
+  return {
+    getRequest,
+    postRequest
+  };
+})();
 
-export { getRequest, updateScoreBoard };
+export default model

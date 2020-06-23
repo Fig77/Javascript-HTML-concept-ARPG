@@ -7,7 +7,7 @@ import TitleScene from './Scenes/TitleScene';
 import OptionsScene from './Scenes/OptionsScene';
 import CreditsScene from './Scenes/CreditsScene';
 import GameOver from './Scenes/GameOver';
-import {getRequest} from './Model';
+import model from './Model';
 import './main.css';
 
 class Game extends Phaser.Game {
@@ -26,7 +26,7 @@ class Game extends Phaser.Game {
     this.scene.start('Boot');
   }
 }
-console.log(getRequest());
+model.getRequest();
 window.game = new Game();
 
 
