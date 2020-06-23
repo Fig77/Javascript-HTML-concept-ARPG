@@ -14,13 +14,15 @@ const postRequest = async (gameOverData) => {
   }
 };
 
-const updateScoreBoard = (resp) => {
+const updateScoreBoard = async () => {
+ let resp = await getRequest();
+ resp = resp.data;
  let i = 0
  while (i < resp.result['length']) {
    document.getElementById('ul').insertAdjacentHTML('afterbegin', `<li class='li'><span>${resp.result[i].user}</span><span>${resp.result[i].score}</span></li>`);
    i += 1;
  }
- return resp;};
+};
 
 
 const getRequest = async () => {

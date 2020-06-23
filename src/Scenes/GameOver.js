@@ -15,6 +15,7 @@ export default class GameOver extends Phaser.Scene {
   create(score) {
     this.score = score.score;
     this.player = score.player;
+    this.postData = {user: this.player, score: this.score};
     this.add.text(55, 55, `Final Score: ${this.score}`, {
       fontSize: '32px',
       fill: '#fff'
@@ -35,7 +36,7 @@ export default class GameOver extends Phaser.Scene {
     this.unit.y = 110;
     this.unit.anims.play('idle');
     //this.submitScore()
-    this.submit = new Button(this, config.width / 2, config.height / 2 + 100, 'blueButton1', 'blueButton2', 'Submit', 'Title', this.jsonPost);
+    this.submit = new Button(this, config.width / 2, config.height / 2 + 100, 'blueButton1', 'blueButton2', 'Submit', 'Title', this.postData);
     this.gameButton = new Button(this, config.width / 2, config.height / 2 + 200, 'blueButton1', 'blueButton2', 'Menu', 'Title');
   }
 }

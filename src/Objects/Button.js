@@ -1,5 +1,5 @@
 import 'phaser';
-import model from '../Model';
+import { postRequest } from '../Model';
 
 export default class Button extends Phaser.GameObjects.Container {
   constructor(scene, x, y, key1, key2, text, targetScene, callback = null) {
@@ -22,7 +22,7 @@ export default class Button extends Phaser.GameObjects.Container {
       if (callback === null) {
         this.scene.scene.start(targetScene);
       } else {
-        model.postRequest(callback);
+        postRequest(callback);
         this.scene.scene.start(targetScene);
       }
     }.bind(this));
