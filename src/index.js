@@ -7,14 +7,14 @@ import TitleScene from './Scenes/TitleScene';
 import OptionsScene from './Scenes/OptionsScene';
 import CreditsScene from './Scenes/CreditsScene';
 import GameOver from './Scenes/GameOver';
-import {updateScoreBoard} from './Model';
+import { updateScoreBoard } from './Model';
 import './main.css';
 
 class Game extends Phaser.Game {
   constructor() {
     super(config);
     this.globals = {
-      bgMusic: null
+      bgMusic: null,
     };
     this.scene.add('Boot', BootScene);
     this.scene.add('Preloader', PreloaderScene);
@@ -28,4 +28,11 @@ class Game extends Phaser.Game {
 }
 
 updateScoreBoard();
+const name = document.querySelector('#name');
+const username = document.querySelector('#username');
+document.querySelector('#button').addEventListener('click', () => {
+  if (name.value !== '') {
+    username.value = name.value;
+  }
+});
 window.game = new Game();

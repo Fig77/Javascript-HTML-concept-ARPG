@@ -1,52 +1,61 @@
-import config from '../Config/config';
-import unit from '../Objects/Unit';
-import character from '../Objects/character';
-import gladiator from '../Objects/gladiator';
-import statsUi from '../Objects/statManager';
-import sceneAnimations from './SceneHelper';
+/* eslint-disable import/no-extraneous-dependencies */
+import Phaser from 'phaser';
+import Character from '../Objects/character';
+import Gladiator from '../Objects/gladiator';
+import StatsUi from '../Objects/statManager';
 
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
   }
 
-  preload() {
-    // initialize map, camera and collider.
-  }
-
   mapInit() {
-    // this.arena = tilemap
-    // get
-    
     this.arena = this.make.tilemap({
-      key: 'arena'
+      key: 'arena',
     });
-    const terrain = this.arena.addTilesetImage("Dungeon_Tileset", "layout");
-    const bot = this.arena.createStaticLayer("Tile Layer 1", terrain, 0, 0);
-    const step = this.arena.createStaticLayer("stepp", terrain, 0, 0);
-    const wall = this.arena.createStaticLayer("wall", terrain, 0, 0);
-    const overwall = this.arena.createStaticLayer("overwall", terrain, 0, 0);
-    //scenecamera
+    const terrain = this.arena.addTilesetImage('Dungeon_Tileset', 'layout');
+    this.arena.createStaticLayer('Tile Layer 1', terrain, 0, 0);
+    this.arena.createStaticLayer('stepp', terrain, 0, 0);
+    const wall = this.arena.createStaticLayer('wall', terrain, 0, 0);
+    const overwall = this.arena.createStaticLayer('overwall', terrain, 0, 0);
+
+    // scenecamera
     this.cameras.main.setBounds(0, 0, this.arena.widthInPixels, this.arena.heightInPixels);
     this.cameras.main.zoom = 1.2;
-    // colider 
+
+    // colider
     wall.setCollisionByExclusion([-1]);
     this.physics.world.bounds.width = this.arena.widthInPixels;
     this.physics.world.bounds.height = this.arena.heightInPixels;
     this.physics.world.enable(this);
-    //colliders
     wall.setTileIndexCallback(24, () => this.startGame());
     this.walls = [wall, overwall];
-    this.match = false
+    this.match = false;
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  getOrtogonalDistance(attack, attacker) {
+    const x = (attack.unit.x - attacker.unit.x);
+    const y = (attack.unit.y - attacker.unit.y);
+    return {
+      x,
+      y,
+    };
+  }
+
+  playerInit() {
+    this.player = new Character(this, this.arena.widthInPixels / 2, this.arena.heightInPixels - 25);
+    this.player.setCamera();
+    this.player.getSprite().setCollideWorldBounds(true);
+    this.physics.add.collider(this.player.getSprite(), this.walls[0]);
   }
 
   addEnemies() {
     let i = 0;
     let gladiador = null;
     this.enemyCounter = 0;
-    let spriteAux = []
     while (i < this.currentNumber) {
-      gladiador = new gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
+      gladiador = new Gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
@@ -62,32 +71,7 @@ export default class GameScene extends Phaser.Scene {
       this.physics.add.collider(this.enemyGroup[0].getSprite(), this.enemyGroup[2].getSprite());
       this.physics.add.collider(this.enemyGroup[1].getSprite(), this.enemyGroup[2].getSprite());
     }
-  };
-
-  startGame() {
-    if (!this.match) {
-      this.player.unit.y -= 125;
-      this.match = true;
-      this.addEnemies();
-      this.statBoxManager();
-    }
-  };
-
-  getOrtogonalDistance(attack, attacker) {
-    let x = (attack.unit.x - attacker.unit.x);
-    let y = (attack.unit.y - attacker.unit.y);
-    return {
-      x,
-      y
-    }
-  };
-
-  playerInit() {
-    this.player = new character(this, this.arena.widthInPixels / 2, this.arena.heightInPixels - 25);
-    this.player.setCamera();
-    this.player.getSprite().setCollideWorldBounds(true);
-    this.physics.add.collider(this.player.getSprite(), this.walls[0]);
-  };
+  }
 
   statBoxManager() {
     if (this.stat) {
@@ -97,7 +81,7 @@ export default class GameScene extends Phaser.Scene {
       this.statmanager.initManager();
       this.stat = true;
     }
-  };
+  }
 
   create() {
     this.score = 10;
@@ -110,16 +94,26 @@ export default class GameScene extends Phaser.Scene {
     this.mapInit();
     this.playerInit(); // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
-    //Ui Setups
-    this.statmanager = new statsUi(this);
+    // Ui Setups
+    this.statmanager = new StatsUi(this);
     this.enemyCounter = 1;
     this.physicsGroupEnemies = null;
+
     // Scene input managment
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
     this.physics.world.setFPS(120);
-  };
+  }
+
+  startGame() {
+    if (!this.match) {
+      this.player.unit.y -= 125;
+      this.match = true;
+      this.addEnemies();
+      this.statBoxManager();
+    }
+  }
 
   matchLoop() {
     let tempEnemy = null;
@@ -131,7 +125,7 @@ export default class GameScene extends Phaser.Scene {
         break;
       }
       tempEnemy = this.enemyGroup[i];
-      if (tempEnemy === null || tempEnemy === undefined) {} else {
+      if (tempEnemy === null || tempEnemy === undefined) { ''; } else {
         tempUpdate = this.enemyGroup[i].update();
         if (tempUpdate === -5) {
           this.player.pendingStat += 5;
@@ -159,17 +153,16 @@ export default class GameScene extends Phaser.Scene {
 
   update() {
     this.statmanager.drawIngameUi();
-    let status = null;
     if (this.status !== -5) {
       this.status = this.player.update();
     } else {
       this.scene.start('GameOver', {
         score: this.score,
-        player: this.player
+        player: this.player,
       });
     }
     if (this.match) {
       this.matchLoop();
     }
   }
-};
+}

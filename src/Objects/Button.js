@@ -11,29 +11,36 @@ export default class Button extends Phaser.GameObjects.Container {
     this.button = this.scene.add.sprite(0, 0, key1).setInteractive();
     this.text = this.scene.add.text(0, 0, text, {
       fontSize: '32px',
-      fill: '#fff'
+      fill: '#fff',
     });
     Phaser.Display.Align.In.Center(this.text, this.button);
 
     this.add(this.button);
     this.add(this.text);
 
-    this.button.on('pointerdown', function () {
+    this.button.on('pointerdown', () => {
       if (callback === null) {
         this.scene.scene.start(targetScene);
       } else {
-        postRequest(callback);
-        this.scene.scene.start(targetScene);
+        let user = 'username';
+        console.lo;
+        if (document.querySelector('#username').value != '') {
+          user = document.querySelector('#username').value;
+        }
+        console.log({ user: `${user}`, score: callback });
+        // postRequest({user:`${user}`, score: callback});
+        this.scene.scene.destroy('Game');
+        this.scene.scene.start('Game');
       }
-    }.bind(this));
+    });
 
-    this.button.on('pointerover', function () {
+    this.button.on('pointerover', () => {
       this.button.setTexture(key2);
-    }.bind(this));
+    });
 
-    this.button.on('pointerout', function () {
+    this.button.on('pointerout', () => {
       this.button.setTexture(key1);
-    }.bind(this));
+    });
 
     this.scene.add.existing(this);
   }

@@ -1,5 +1,5 @@
 import 'phaser';
-import Unit from '../Objects/Unit';
+import Unit from './Unit';
 
 export default class Gladiator extends Unit {
   constructor(scene, x = 1489.0000000000239, y = 100, hp = 200, atk = 5, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
@@ -12,44 +12,41 @@ export default class Gladiator extends Unit {
     this.unit.body.setBounce(1);
     this.dX = 0;
     this.last = {
-      x: x,
-      y: y
+      x,
+      y,
     };
     this.initAnimation();
-    this.pacmanQueue = [this.chaseX, this.chaseY];
+    this.pacmanQueue = [this.chaseX, this.chaseY]; // PseudoPacman Q
     this.updatPerRound();
-  };
+  }
 
   updatPerRound() {
-    this.hp += this.scene.round * 5
-    this.atk += this.scene.round * 3
-    this.speed += this.scene.round * 2
+    this.hp += this.scene.round * 5;
+    this.atk += this.scene.round * 3;
+    this.speed += this.scene.round * 2;
   }
 
   initAnimation() {
     this.unit.on('animationcomplete_attkG', (anim, frame) => {
-      this.attack(anim, frame)
+      this.attack(anim, frame);
     });
-  };
+  }
 
   playWalking() {
     this.unit.anims.play('walkG', true);
     this.walking = true;
-  };
+  }
 
   attack(anim, frame) {
     if (frame.frame.name > 19) {
       super.attack(this.kill);
     }
-  };
-
-  // movingSprite will adjust the moving sprite according to direction / speed
-  // Keep in mind that for now I am adjusting it with scale, care.
+  }
 
   movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
     this.playWalking();
     super.movingSprite(x, y, sx, sy, flip);
-  };
+  }
 
   move(delta) {
     switch (delta) {
@@ -70,7 +67,6 @@ export default class Gladiator extends Unit {
         return true;
         break;
       default:
-        // code block
     }
     if (this.walking) {
       this.unit.anims.stop();
@@ -87,14 +83,10 @@ export default class Gladiator extends Unit {
     this.unit.setFrame(0);
   }
 
-  incapacitate() {
-    this.unit.anims.play('incGladiator', true);
-  };
-
   isBlocked(direction, opposite, value) {
     if (this.unit.body.blocked[direction] === true) {
       return this.move(-1 * value);
-    } else if (this.unit.body.blocked[opposite] === true) {
+    } if (this.unit.body.blocked[opposite] === true) {
       return this.move(value);
     }
     return false;
@@ -106,10 +98,10 @@ export default class Gladiator extends Unit {
         this.move(distance.y / Math.abs(distance.y) * -3);
       }
       return true;
-    } else {
-      let aux = this.pacmanQueue.shift();
-      this.pacmanQueue.push(aux);
     }
+    const aux = this.pacmanQueue.shift();
+    this.pacmanQueue.push(aux);
+
     return false;
   }
 
@@ -119,10 +111,10 @@ export default class Gladiator extends Unit {
         this.move(distance.x / Math.abs(distance.x) * -2);
       }
       return true;
-    } else {
-      let aux = this.pacmanQueue.shift();
-      this.pacmanQueue.push(aux);
     }
+    const aux = this.pacmanQueue.shift();
+    this.pacmanQueue.push(aux);
+
     return false;
   }
 
@@ -131,24 +123,23 @@ export default class Gladiator extends Unit {
       return true;
     }
     return false;
-  };
+  }
 
   chase(target) {
     this.qElement = this.pacmanQueue[0];
     if (this.onAbsoluteRange(target)) {
       this.qElement(target);
       return true;
-    } else {
-      this.stop();
-      this.fliponTarget(target);
-      super.setState(1);
-      return false;
     }
+    this.stop();
+    this.fliponTarget(target);
+    super.setState(1);
+    return false;
   }
 
   update() {
-    let state = this.state;
-    let target = super.absolutDistanceR(this.kill);
+    const { state } = this;
+    const target = super.absolutDistanceR(this.kill);
     switch (state) {
       case 0: {
         this.chase(target);
@@ -172,5 +163,5 @@ export default class Gladiator extends Unit {
       default:
         return super.update();
     }
-  };
-};
+  }
+}

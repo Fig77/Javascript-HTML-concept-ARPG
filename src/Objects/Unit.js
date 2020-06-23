@@ -22,16 +22,15 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.flipped = false; // false facing right
     this.walking = false;
     this.state = 0; // 0 = active, -1 = incapacitate, 1 = attacks
-    this.manualBouncingX = 0; // I've look for another way but whatever, going manual.
+    this.manualBouncingX = 0;
     this.bounceSpeed = 100;
-    this.unit.on('animationcomplete', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
-      this.emit('animationcomplete_' + anim.key, anim, frame);
+    this.unit.on('animationcomplete', function (anim, frame) { // Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
+      this.emit(`animationcomplete_${anim.key}`, anim, frame);
     }, this.unit);
-
-    this.unit.on('animationupdate', function (anim, frame) { //Cheesy fix for the usual phaser 3 syntax not responding as in documentation.
-      this.emit('animationupdate_' + anim.key, anim, frame);
+    this.unit.on('animationupdate', function (anim, frame) {
+      this.emit(`animationupdate_${anim.key}`, anim, frame);
     }, this.unit);
-  };
+  }
 
   initAnimation() {}
 
@@ -66,7 +65,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
       default:
         return this.state;
     }
-  };
+  }
 
   // Moving actions
 
@@ -79,7 +78,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
       }
       this.flipped = flip;
     }
-  };
+  }
 
   fliponTarget(target) {
     if (!this.flipped) {
@@ -89,27 +88,27 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     } else if (this.unit.x < target.x) {
       this.movingSprite(0, 0, 1, 1, false);
     }
-  };
+  }
 
   movingSprite(x = 0, y = 0, sx = 1, sy = 1, flip = true) {
     this.unit.setVelocityY(y);
     this.unit.setVelocityX(x);
     this.unit.setScale(sx, sy);
     this.flipHorizontal(flip);
-  };
+  }
 
   absolutDistanceR(target) {
-    let distance = this.scene.getOrtogonalDistance(this, target)
-    let x = distance.x;
-    let y = distance.y;
-    let xa = Math.abs(Math.round(x))
-    let ya = Math.abs(Math.round(y))
+    const distance = this.scene.getOrtogonalDistance(this, target);
+    const { x } = distance;
+    const { y } = distance;
+    const xa = Math.abs(Math.round(x));
+    const ya = Math.abs(Math.round(y));
     return {
       xa,
       ya,
       x,
-      y
-    }
+      y,
+    };
   }
 
   stop() {
@@ -117,50 +116,47 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.setVelocityY(0);
   }
 
-  // basic attack action
-
   attack(attacks) {
     attacks.setBounce(250 * this.atk / 10);
-    attacks.takeDamage(this.atk); // makes enemy takes damage.
+    attacks.takeDamage(this.atk);
     this.setState(-1);
-  };
+  }
 
   takeDamage(d) {
     this.currentHp -= d;
-  };
+  }
 
   setBounce(bounce) {
     this.bounceSpeed = bounce * this.bounceHelper(this.flipped);
     this.manualBouncingX = 2;
   }
 
-  bounceOnVariable() { // will manually set a speed on x in base of damage, or unless that is for what is used.
+  bounceOnVariable() {
     this.unit.body.setVelocityX(1 * this.bounceSpeed);
-  };
+  }
 
   bounceHelper(dire) {
     if (dire) {
       return 1;
-    } else {
-      return -1;
     }
+    return -1;
   }
-  // death scene
+
   toggleDead() {
     if (this.currentHp <= 0) {
       return -5;
     }
-  };
+  }
 
   getSprite() {
     return this.unit;
-  };
+  }
 
   getUnitStats() {
     return {
       hp: this.hp,
       speed: this.speed,
-      atk: this.atk
-    }
-  };
-};
+      atk: this.atk,
+    };
+  }
+}
