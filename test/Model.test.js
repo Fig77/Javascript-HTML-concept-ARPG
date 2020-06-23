@@ -1,3 +1,5 @@
+import "core-js/stable";
+import "regenerator-runtime/runtime";
 import model from '../src/Model';
 
 test('getRequest will instantly return a json with users submitted scores', async() => {
