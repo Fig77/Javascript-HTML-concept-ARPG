@@ -17,6 +17,7 @@ const model = (() => {
       document.getElementById('ul').insertAdjacentHTML('afterbegin', `<li class='li'><span>${resp.result[i].user}</span><span>${resp.result[i].score}</span></li>`);
       i += 1;
     }
+    return resp;
   };
 
   const postRequest = async (gameOverData) => {
@@ -31,6 +32,7 @@ const model = (() => {
     const response = raw;
     return response;
   };
+  
   return {
     getRequest,
     postRequest

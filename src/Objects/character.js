@@ -2,7 +2,7 @@ import 'phaser';
 import Unit from '../Objects/Unit';
 
 export default class Player extends Unit {
-  constructor(scene, x = 409, y = 590, hp = 1, atk = 15, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
+  constructor(scene, x = 409, y = 590, hp = 100, atk = 15, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
     super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.idleConfig = {
