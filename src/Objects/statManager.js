@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 
 export default class statManager extends Phaser.GameObjects.Container {
   constructor(scene) {

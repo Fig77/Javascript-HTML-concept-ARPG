@@ -1,7 +1,7 @@
-import 'phaser';
+import Phaser from 'phaser';
 
 export default class Unit extends Phaser.GameObjects.Sprite {
-  constructor(scene, x = 50, y = 100, hp = 100, atk = 10, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0, spritekey = '') {
+  constructor(scene, x = 50, y = 100, hp = 100, atk = 10, def = 0, spritekey = '') {
     super(scene);
     // position
     this.x = x;
@@ -12,10 +12,6 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.atk = atk;
     this.def = def;
     this.speed = 70;
-    // modifiers
-    this.mod_hp = mod_hp;
-    this.mod_atk = mod_atk;
-    this.mod_def = mod_def;
     // sprite
     this.unit = scene.physics.add.sprite(x, y, spritekey);
     this.unit.body.setSize(15, 22, true);

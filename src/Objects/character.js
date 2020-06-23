@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import Unit from './Unit';
 
 export default class Player extends Unit {

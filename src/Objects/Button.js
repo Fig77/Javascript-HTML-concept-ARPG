@@ -1,4 +1,4 @@
-import 'phaser';
+import Phaser from 'phaser';
 import { postRequest } from '../Model';
 
 export default class Button extends Phaser.GameObjects.Container {

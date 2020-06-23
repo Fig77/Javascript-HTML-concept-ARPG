@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 import Phaser from 'phaser';
 import sceneAnimations from './SceneHelper';
 
@@ -53,7 +54,6 @@ export default class PreloaderScene extends Phaser.Scene {
     });
     assetText.setOrigin(0.5, 0.5);
 
-    // update progress bar
     this.load.on('progress', (value) => {
       percentText.setText(`${parseInt(value * 100)}%`);
       progressBar.clear();
@@ -98,7 +98,7 @@ export default class PreloaderScene extends Phaser.Scene {
   ready() {
     sceneAnimations.animCreate(this.scene.manager.scenes[5]);
     this.scene.start('Title');
-    this.readyCount++;
+    this.readyCount += 1;
     if (this.readyCount === 2) {
       this.scene.start('Title');
     }
