@@ -31,7 +31,6 @@ export default class GameOver extends Phaser.Scene {
     this.unit.x = 55 + 250;
     this.unit.y = 110;
     this.unit.anims.play('idle');
-    console.log(this.scene);
     this.submit = new Button(this, config.width / 2, config.height / 2 + 100, 'blueButton1', 'blueButton2', 'Submit', 'Title', this.score);
 
     this.gameButton = new Button(this, config.width / 2, config.height / 2 + 200, 'blueButton1', 'blueButton2', 'Menu', 'Title');

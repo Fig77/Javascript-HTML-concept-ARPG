@@ -181,7 +181,6 @@ export default class GameScene extends Phaser.Scene {
       this.enemyGroup[i].destroy();
       i += 1;
     }
-    console.log('ah');
     this.status = 0;
     this.create();
   }

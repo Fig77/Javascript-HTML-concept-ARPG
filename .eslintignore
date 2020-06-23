@@ -11,7 +11,7 @@ src/structs/RTree.js
 plugins/spine/dist/
 plugins/spine/src/runtimes/
 webpack.*
-webpack.config.js
+webpack.config.js --no ignore
 webpack.dist.config.js
 webpack.fb.config.js
 webpack.fb.dist.config.js
