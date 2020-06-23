@@ -17,5 +17,6 @@
     "no-unused-expressions": "off",
     "func-names": "off",
     "radix": "off",
+    "import/no-unresolved": "off",
     "import/no-extraneous-dependencies": "off"
   }}

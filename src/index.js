@@ -1,4 +1,5 @@
-/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-extraneous-dependencies, import/no-unresolved */
+
 import Phaser from 'phaser';
 import config from './Config/config';
 import GameScene from './Scenes/GameScene';

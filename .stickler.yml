@@ -11,6 +11,7 @@ files:
       - 'webpack/*'
       - 'node_modules/*'
       - 'test/*'
+      - 'setupJest'
 
 # PLEASE DO NOT enable auto fixing options
 # if you need extra support from you linter - do it in your local env as described in README for this config

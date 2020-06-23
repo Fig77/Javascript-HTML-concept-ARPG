@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 import axios from 'axios';
 
 const baseApiUrl = 'https://us-central1-js-capstone-backend.cloudfunctions.net/api/games/x2mheK9ynuj1B6F38TME/scores';
