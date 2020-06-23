@@ -133,12 +133,12 @@ export default class Gladiator extends Unit {
     super.setState(1);
     return false;
   }
-  
+
   updateStats(constante) {
     this.hp += constante;
     this.atk += constante;
     this.speed += 2;
-  };
+  }
 
   update() {
     const { state } = this;

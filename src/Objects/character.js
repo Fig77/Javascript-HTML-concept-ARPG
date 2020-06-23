@@ -119,5 +119,4 @@ export default class Player extends Unit {
     }
     this.move();
   }
-  
 }

@@ -38,5 +38,5 @@ const updateScoreBoard = async () => {
 export {
   getRequest,
   postRequest,
-  updateScoreBoard
+  updateScoreBoard,
 };

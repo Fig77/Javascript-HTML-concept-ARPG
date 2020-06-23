@@ -64,7 +64,7 @@ export default class GameScene extends Phaser.Scene {
     while (i < this.currentNumber) {
       gladiador = new Gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
-      gladiador.updateStats(this.score/5);
+      gladiador.updateStats(this.score / 5);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
       this.enemyGroup[i] = gladiador;
@@ -184,5 +184,5 @@ export default class GameScene extends Phaser.Scene {
     console.log('ah');
     this.status = 0;
     this.create();
-  };
+  }
 }
