@@ -120,6 +120,12 @@ Facundo Iglesias - [Github profile](https://github.com/Fig77)
 
 Project Link: [Project repo](https://github.com/Fig77/new-repo-js/)
 
+### SPECIAL THANKS
+
+The amazing and a bit butchered by myself, sprites were done by [PixElthen](https://opengameart.org/users/pixelthen)
+
+Thanks to [Scott](https://phasertutorials.com/author/scottwestover2006/) for his tutorials. Specially [Project Template](https://phasertutorials.com/creating-a-phaser-3-template-part-1/)
+
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
