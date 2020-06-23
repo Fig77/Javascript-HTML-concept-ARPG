@@ -14,6 +14,15 @@ const postRequest = async (gameOverData) => {
   }
 };
 
+const getRequest = async () => {
+  try {
+    const data = await axios.get(`${baseApiUrl}`);
+    return data;
+  } catch (error) {
+    throw new Error('Unable to get scores at this time');
+  }
+};
+
 const updateScoreBoard = async () => {
   let resp = await getRequest();
   resp = resp.data;
@@ -21,15 +30,6 @@ const updateScoreBoard = async () => {
   while (i < resp.result.length) {
     document.getElementById('ul').insertAdjacentHTML('afterbegin', `<li class='li'><span>${resp.result[i].user}</span><span>${resp.result[i].score}</span></li>`);
     i += 1;
-  }
-};
-
-const getRequest = async () => {
-  try {
-    const data = await axios.get(`${baseApiUrl}`);
-    return data;
-  } catch (error) {
-    throw new Error('Unable to get scores at this time');
   }
 };
 

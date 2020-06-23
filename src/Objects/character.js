@@ -1,9 +1,9 @@
-import Phaser from 'phaser';
+/* eslint-disable consistent-return */
 import Unit from './Unit';
 
 export default class Player extends Unit {
-  constructor(scene, x = 409, y = 590, hp = 100, atk = 15, def = 0, mod_hp = 0, mod_atk = 0, mod_def = 0) {
-    super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, 'adventurer');
+  constructor(scene, x = 409, y = 590, hp = 100, atk = 15, def = 0) {
+    super(scene, x, y, hp, atk, def, 'adventurer');
     this.cursor = scene.input.keyboard.createCursorKeys();
     this.idleConfig = {
       delay: 1000 * 5,
@@ -44,7 +44,7 @@ export default class Player extends Unit {
     super.movingSprite(x, y, sx, sy, flip);
   }
 
-  move(delta) {
+  move() {
     if (this.cursor.down.isDown) {
       this.movingSprite(0, this.speed, -1, 1, true);
       this.timer.reset(this.idleConfig);
@@ -72,6 +72,7 @@ export default class Player extends Unit {
     }
     this.unit.setVelocityX(0);
     this.unit.setVelocityY(0);
+    return false;
   }
 
   toggleIddle() {

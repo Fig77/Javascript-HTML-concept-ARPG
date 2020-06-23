@@ -1,9 +1,10 @@
+/* eslint-disable consistent-return */
 import 'phaser';
 import Unit from './Unit';
 
 export default class Gladiator extends Unit {
-  constructor(scene, x = 1489.0000000000239, y = 100, hp = 200, atk = 5, def = 5, mod_hp = 0, mod_atk = 0, mod_def = 0, text = 'gladiator') {
-    super(scene, x, y, hp, atk, def, mod_hp, mod_atk, mod_def, text, 4.5);
+  constructor(scene, x = 1489.0000000000239, y = 100, hp = 200, atk = 5, def = 5, text = 'gladiator') {
+    super(scene, x, y, hp, atk, def, text, 4.5);
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;
     this.kill = scene.player;
@@ -53,19 +54,15 @@ export default class Gladiator extends Unit {
       case 3:
         this.movingSprite(0, this.speed, -1, 1, true);
         return true;
-        break;
       case (-2):
         this.movingSprite(-1 * this.speed, 0, -1, 1, true);
         return true;
-        break;
       case (-3):
         this.movingSprite(0, -1 * this.speed, 1, 1, false);
         return true;
-        break;
       case 2:
         this.movingSprite(this.speed, 0, 1, 1, false);
         return true;
-        break;
       default:
     }
     if (this.walking) {
@@ -95,7 +92,7 @@ export default class Gladiator extends Unit {
   chaseY(distance) {
     if (distance.ya >= 3) {
       if (this.isBlocked('up', 'down', 2) === false) {
-        this.move(distance.y / Math.abs(distance.y) * -3);
+        this.move((distance.y / Math.abs(distance.y)) * -3);
       }
       return true;
     }
@@ -108,7 +105,7 @@ export default class Gladiator extends Unit {
   chaseX(distance) {
     if (distance.xa >= this.unit.body.width + 3) {
       if (this.isBlocked('right', 'left', 3) === false) {
-        this.move(distance.x / Math.abs(distance.x) * -2);
+        this.move((distance.x / Math.abs(distance.x)) * -2);
       }
       return true;
     }
@@ -126,7 +123,7 @@ export default class Gladiator extends Unit {
   }
 
   chase(target) {
-    this.qElement = this.pacmanQueue[0];
+    this.qElement = this.pacmanQueue[0]; /* eslint-disable-line prefer-destructuring */
     if (this.onAbsoluteRange(target)) {
       this.qElement(target);
       return true;
@@ -144,11 +141,9 @@ export default class Gladiator extends Unit {
       case 0: {
         this.chase(target);
         return super.update();
-        break;
       }
       case -1: {
         return super.update();
-        break;
       }
       case 1: {
         super.fliponTarget(this.kill.unit);
@@ -158,7 +153,6 @@ export default class Gladiator extends Unit {
           super.setState(0);
         }
         return super.update();
-        break;
       }
       default:
         return super.update();

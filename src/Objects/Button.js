@@ -23,17 +23,14 @@ export default class Button extends Phaser.GameObjects.Container {
         this.scene.scene.start(targetScene);
       } else {
         let user = 'username';
-        console.lo;
-        if (document.querySelector('#username').value != '') {
+        if (document.querySelector('#username').value !== '') {
           user = document.querySelector('#username').value;
         }
-        console.log({ user: `${user}`, score: callback });
         // postRequest({user:`${user}`, score: callback});
         this.scene.scene.destroy('Game');
         this.scene.scene.start('Game');
       }
     });
-
     this.button.on('pointerover', () => {
       this.button.setTexture(key2);
     });

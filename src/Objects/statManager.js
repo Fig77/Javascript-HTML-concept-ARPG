@@ -114,6 +114,7 @@ export default class statManager extends Phaser.GameObjects.Container {
           this.scene.player.pendingStat -= 1;
           this.destroyText();
           this.loadStatusText();
+          break;
         default:
       }
     }

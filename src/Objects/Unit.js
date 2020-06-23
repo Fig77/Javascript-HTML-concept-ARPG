@@ -28,8 +28,6 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     }, this.unit);
   }
 
-  initAnimation() {}
-
   getState() {
     return this.state;
   }
@@ -50,7 +48,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
         return this.state;
       }
       case -1: {
-        if (this.manualBouncingX != 0) {
+        if (this.manualBouncingX !== 0) {
           this.bounceOnVariable();
           this.manualBouncingX -= 1;
         } else {
@@ -113,7 +111,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
   }
 
   attack(attacks) {
-    attacks.setBounce(250 * this.atk / 10);
+    attacks.setBounce((250 * this.atk) / 10);
     attacks.takeDamage(this.atk);
     this.setState(-1);
   }
@@ -131,6 +129,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     this.unit.body.setVelocityX(1 * this.bounceSpeed);
   }
 
+  // eslint-disable-next-line class-methods-use-this
   bounceHelper(dire) {
     if (dire) {
       return 1;
@@ -142,6 +141,7 @@ export default class Unit extends Phaser.GameObjects.Sprite {
     if (this.currentHp <= 0) {
       return -5;
     }
+    return 0;
   }
 
   getSprite() {
