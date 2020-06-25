@@ -104,7 +104,7 @@ export default class GameScene extends Phaser.Scene {
     // Ui Setups
     this.statmanager = new StatsUi(this);
     this.enemyCounter = 1;
-    // this.physics.world.setFPS(120);
+    this.statmanager.drawIngameUi();
   }
 
   startGame() {
@@ -155,9 +155,9 @@ export default class GameScene extends Phaser.Scene {
   }
 
   update() {
-    this.statmanager.drawIngameUi();
     if (this.status !== -5) {
       this.status = this.player.update();
+      this.statmanager.update();
     } else {
       this.scene.start('GameOver', {
         score: this.score,

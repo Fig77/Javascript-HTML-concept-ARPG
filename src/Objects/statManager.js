@@ -22,12 +22,36 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.drawed = false;
   }
 
-  drawIngameUi() {
-    if (this.drawed) {
-      this.clearInGameUi();
+  getFUllEnemiesHp() {
+    this.fullENemies = 0;
+    let group = this.scene.enemyGroup;
+    let i = 0
+    while (i < group.length) {
+      if (group[i] === null || group[i] === undefined) {
+        break;
+      }
+      this.fullENemies += group[i].currentHp;
+      i += 1;
     }
-    this.drawed = true;
+  };
+
+  update() {
+    this.getFUllEnemiesHp();
+    this.currentHpp.setText(`Current Hp: ${this.scene.player.currentHp}`);
+    this.currentHpp.x = this.scene.cameras.main.worldView.x + 20;
+    this.currentHpp.y = this.scene.cameras.main.worldView.y + 15;
+    this.currentEnemies.x = this.scene.cameras.main.worldView.x + 420;
+    this.currentEnemies.y = this.scene.cameras.main.worldView.y + 15;
+    this.currentEnemies.setText(`Enemies Hp: ${this.fullENemies}`);
+  };
+
+  drawIngameUi() {
+    this.getFUllEnemiesHp();
     this.currentHpp = this.scene.add.text(this.scene.cameras.main.worldView.x + 20, this.scene.cameras.main.worldView.y + 15, `Currenr Hp: ${this.scene.player.currentHp}`, {
+      fontSize: '19px',
+      fill: '#fff',
+    });
+    this.currentEnemies = this.scene.add.text(this.scene.cameras.main.worldView.x + 420, this.scene.cameras.main.worldView.y + 15, `Currenr Hp: ${this.fullENemies}`, {
       fontSize: '19px',
       fill: '#fff',
     });
