@@ -31,8 +31,11 @@ test('getRequest to api const url should return a JSON with format {user: str, s
   expect(result.data).toMatchSchema(schema);
 }, 4000);
 
-test('postRequest will send succesfuly a POST to the api const url', async()=> {
-  const data = await postRequest({user:'Tester-1', score: 10});
+test('postRequest will send succesfuly a POST to the api const url', async () => {
+  const data = await postRequest({
+    user: 'Tester-1',
+    score: 10
+  });
   expect(data.status).toBe(201);
   expect(data.statusText).toBe('Created');
-}, 4000); 
+}, 4000);
