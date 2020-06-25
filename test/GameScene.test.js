@@ -1,4 +1,4 @@
-const GameScene = require('../src/scenes/GameScene');
+const GameScene = require('../src/Scenes/GameScene');
 import StatsUi from '../src/Objects/statManager';
 jest.mock('../src/Objects/statManager');
 import {
