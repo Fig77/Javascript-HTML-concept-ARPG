@@ -110,6 +110,9 @@ Copy the following instructions sequentially into your terminal
 
 - Run `npm test`to run the test suites.
 
+- If for some reason you are having "Jest not found" after install, might be because it's installed in ./node_modules/.bin, and running ./node_modules/.bin/jest --updateSnapshot
+should work as a quick fix. But I would recommend deleting Jest from that folder and install it globally.
+
 ## Live Version
 
 - You can view the app hosted online [here](https://naughty-jackson-fc366b.netlify.app/).
