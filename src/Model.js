@@ -29,7 +29,7 @@ const updateScoreBoard = async () => {
   resp = resp.data;
   let i = 0;
   while (i < resp.result.length) {
-    if ((typeof resp.result[i].user) !== 'object') {
+    if ((typeof resp.result[i].user) !== 'object' && resp.result[i].user !== 'Tester-1') {
       document.getElementById('ul').insertAdjacentHTML('afterbegin', `<li class='li'><span>${resp.result[i].user}</span><span>${resp.result[i].score}</span></li>`);
     }
     i += 1;
