@@ -24,17 +24,17 @@ export default class statManager extends Phaser.GameObjects.Container {
 
   getFUllEnemiesHp() {
     this.fullENemies = 0;
-    let group = this.scene.enemyGroup;
-    let i = 0
+    const group = this.scene.enemyGroup;
+    let i = 0;
     while (i < group.length) {
       if (group[i] === null || group[i] === undefined) {
-        ''
+        this.fullENemies += 0;
       } else {
         this.fullENemies += group[i].currentHp;
       }
       i += 1;
     }
-  };
+  }
 
   update() {
     this.getFUllEnemiesHp();
@@ -44,7 +44,7 @@ export default class statManager extends Phaser.GameObjects.Container {
     this.currentEnemies.x = this.scene.cameras.main.worldView.x + 420;
     this.currentEnemies.y = this.scene.cameras.main.worldView.y + 15;
     this.currentEnemies.setText(`Enemies Hp: ${this.fullENemies}`);
-  };
+  }
 
   drawIngameUi() {
     this.getFUllEnemiesHp();
