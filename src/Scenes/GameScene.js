@@ -4,6 +4,7 @@ import Character from '../Objects/character';
 import Gladiator from '../Objects/gladiator';
 import StatsUi from '../Objects/statManager';
 
+
 export default class GameScene extends Phaser.Scene {
   constructor() {
     super('Game');
@@ -104,11 +105,7 @@ export default class GameScene extends Phaser.Scene {
     // Ui Setups
     this.statmanager = new StatsUi(this);
     this.enemyCounter = 1;
-    this.physicsGroupEnemies = null;
-
-    // Scene input managment
-
-    this.physics.world.setFPS(120);
+    //this.physics.world.setFPS(120);
   }
 
   startGame() {
