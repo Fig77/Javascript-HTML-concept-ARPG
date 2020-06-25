@@ -78,6 +78,20 @@ difficulty.
 
 * After game over you can click submit for uploading score, and keep playing. Or going into the menu, and keep playing.
 
+## Advices
+
+* Since game is very fair, but also enemies are not very smart, you can easily defeat first enemy by cancelling the A animation. For that, I recommend moving quickly. 
+Do note, that damage effect only works after certain frame of the animation. I can tell you "After frame 34" but that doesn't help ingame.
+
+* After that, with more enemies the cheesy exploit to beat... the first round at least, is to pull them to a corner. Do not let them stack, since damage will not be
+easy to deal with. To get this working, you need to 'trick' part of the group to start walking to the wrong position. This is how dumb pacman (their minds when chasig) works:
+  - Get on player same X axis.
+  - Get close enough to the player on Y axis.
+  - If being block while 1), go on Y axis until you can move. (Now, on good pacman, you try left top right down. Dumb pacman,only picks one.)
+  - Same for 2.
+
+*This is a concept game. But, a few things will be updated and patch. THerefore, this might not be useful depending when you read it if I forget to update it.*
+
 ## Playing Locally
 
 Copy the following instructions sequentially into your terminal
