@@ -8,7 +8,7 @@ export default class statManager extends Phaser.GameObjects.Container {
   }
 
   initManager() {
-    this.box = this.scene.add.image(this.scene.cameras.main.worldView.x + 535, this.scene.cameras.main.worldView.y + 430, 'statbox');
+    this.box = this.scene.add.image(this.scene.cameras.main.worldView.x + 535, this.scene.cameras.main.worldView.y + 370, 'statbox');
     this.button1 = this.scene.add.image(this.box.x + 35, this.box.y - 100, 'arrow').setInteractive();
     this.button2 = this.scene.add.image(this.box.x + 35, this.box.y - 60, 'arrow').setInteractive();
     this.button3 = this.scene.add.image(this.box.x + 35, this.box.y - 20, 'arrow').setInteractive();
@@ -28,9 +28,10 @@ export default class statManager extends Phaser.GameObjects.Container {
     let i = 0
     while (i < group.length) {
       if (group[i] === null || group[i] === undefined) {
-        break;
+        ''
+      } else {
+        this.fullENemies += group[i].currentHp;
       }
-      this.fullENemies += group[i].currentHp;
       i += 1;
     }
   };
