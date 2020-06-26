@@ -8,7 +8,7 @@
     "start": "npm run build && webpack-dev-server --port=8000",
     "dev": "webpack --watch",
     "server": "webpack-dev-server --port=8000",
-    "test": "Jest"
+    "test": "jest"
   },
   "jest": {
     "setupFiles": [
