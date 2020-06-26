@@ -115,7 +115,7 @@ should work as a quick fix. But I would recommend deleting Jest from that folder
 
 ## Live Version
 
-- You can view the app hosted online [here](https://naughty-jackson-fc366b.netlify.app/).
+- You can view the app hosted online [here](https://fair-roguelike-concept.netlify.app/).
 
 <!-- FUTURE IMPROVEMENTS -->
 
