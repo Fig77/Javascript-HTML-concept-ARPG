@@ -142,3 +142,8 @@ Project Link: [Project repo](https://github.com/Fig77/new-repo-js/)
 The amazing and a bit butchered by myself, sprites were done by [PixElthen](https://opengameart.org/users/pixelthen)
 
 Thanks to [Scott](https://phasertutorials.com/author/scottwestover2006/) for his tutorials. Especially [Project Template](https://phasertutorials.com/creating-a-phaser-3-template-part-1/)
+
+[contributors-shield]: https://img.shields.io/badge/Contributors-1-%2300ff00
+[contributors-url]: https://github.com/Fig77/new-repo-js//graphs/contributors
+[issues-shield]: https://img.shields.io/badge/issues-0-%2300ff00
+[issues-url]: https://github.com/Fig77/new-repo-js//issues/
