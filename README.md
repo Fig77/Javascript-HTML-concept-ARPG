@@ -104,7 +104,7 @@ Copy the following instructions sequentially into your terminal
 
 - Visit http://localhost:8000 on your browser.
 
-## TestingJavascript-Capstone
+## Testing JavaScript-Capstone
 
 - Run `npm install`
 
