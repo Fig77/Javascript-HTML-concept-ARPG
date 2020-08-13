@@ -45,7 +45,7 @@ This project was built with Phaser-3, a 2D game framework for making HTML5 games
 
 ## Prerequisites
 
-- Git (
+- Git
 - Node.js
 - NPM
 - Webpack
