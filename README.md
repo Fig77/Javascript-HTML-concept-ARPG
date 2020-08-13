@@ -18,28 +18,26 @@
     <a href="https://github.com/Fig77/new-repo-js/issues">Request Feature</a>
   </p>
 </p>
-<!-- TABLE OF CONTENTS -->
-
-## Table of Contents
-
-- [About the Project](#about-the-project)
-  - [Built With](#built-with)
-  - [Prerequisites](#prerequisites)
-- [Credit](#credit)
-- [Screenshots](#screenshots)
-- [How To Play](#how-to-play)
-- [Playing Locally](#playing-locally)
-- [Testing](#testing)
-- [Live Version](#live-version)
-- [Future Improvements](#future-improvements)
-- [License](#license)
-- [Contact](#contact)
 
 <!-- ABOUT THE PROJECT -->
-
 ## About The Project
 
 An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you start all over if you lose). Survive waves of enemies during each round in an arena. After each match, get points per enemy you kill that you can freely distribute among your character stats. (HP - Speed - Atk). The game will scale abruptly and a certain build my get you through more rounds. 
+
+## Table of Contents
+- [Built With](#built-with)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+  - [Playing Locally](#playing-locally)
+  - [Screenshots](#screenshots)
+  - [How To Play](#how-to-play)
+  - [Live Version](#live-version)
+- [Testing](#testing)
+- [Future Improvements](#future-improvements)
+- [Credit](#credit)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
 ### Built With
 
@@ -53,7 +51,21 @@ This project was Phaser-3.js, a 2D game framework for making HTML5 games for des
 - Webpack
 - Jest
 
-## Screenshots
+## Usage
+
+### Playing Locally
+
+Copy the following instructions sequentially into your terminal
+
+- git clone https://github.com/Fig77/new-repo-js/.git
+
+- Run `npm install`
+
+- Run `npm start` in your terminal to fire the Webpack server
+
+- Visit http://localhost:8000 on your browser.
+
+### Screenshots
 
 ### Starting Game
 
@@ -66,6 +78,10 @@ This project was Phaser-3.js, a 2D game framework for making HTML5 games for des
 ### Game Over
 
 ![screenshot](Readme/gameOver.png)
+
+### Live Version
+
+- You can view the app hosted online [here](https://fair-roguelike-concept.netlify.app/).
 
 ### How To Play
 
@@ -92,18 +108,6 @@ easy to deal with. To get this working, you need to 'trick' part of the group to
 
 *This is a concept game. But, a few things will be updated and patch. Therefore, this might not be useful depending when you read it if I forget to update it.*
 
-## Playing Locally
-
-Copy the following instructions sequentially into your terminal
-
-- git clone https://github.com/Fig77/new-repo-js/.git
-
-- Run `npm install`
-
-- Run `npm start` in your terminal to fire the Webpack server
-
-- Visit http://localhost:8000 on your browser.
-
 ## Testing JavaScript-Capstone
 
 - Run `npm install`
@@ -113,15 +117,16 @@ Copy the following instructions sequentially into your terminal
 - If for some reason you are having "Jest not found" after install, might be because it's installed in ./node_modules/.bin, and running ./node_modules/.bin/jest --updateSnapshot
 should work as a quick fix. But I would recommend deleting Jest from that folder and install it globally.
 
-## Live Version
-
-- You can view the app hosted online [here](https://fair-roguelike-concept.netlify.app/).
-
 <!-- FUTURE IMPROVEMENTS -->
 
 ## Future Improvements
 
 See the [open issues](https://github.com/Fig77/new-repo-js/issues) for a list of proposed features (and known issues).
+
+## Contributing
+Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.
+
+Please make sure to update tests as appropriate.
 
 <!-- LICENSE -->
 
