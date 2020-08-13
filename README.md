@@ -34,7 +34,7 @@ An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you
   - [Live Version](#live-version)
 - [Testing](#testing)
 - [Future Improvements](#future-improvements)
-- [Credit](#credit)
+- [Credits](#credits)
 - [Contributing](#contributing)
 - [License](#license)
 - [Contact](#contact)
@@ -108,7 +108,7 @@ easy to deal with. To get this working, you need to 'trick' part of the group to
 
 *This is a concept game. But, a few things will be updated and patch. Therefore, this might not be useful depending when you read it if I forget to update it.*
 
-## Testing JavaScript-Capstone
+## Testing
 
 - Run `npm install`
 
@@ -142,7 +142,7 @@ Facundo Iglesias - [Github profile](https://github.com/Fig77)
 
 Project Link: [Project repo](https://github.com/Fig77/new-repo-js/)
 
-### SPECIAL THANKS
+### Credits
 
 The amazing and a bit butchered by myself, sprites were done by [PixElthen](https://opengameart.org/users/pixelthen)
 
