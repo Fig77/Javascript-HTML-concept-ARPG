@@ -41,11 +41,11 @@ An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you
 
 ### Built With
 
-This project was Phaser-3.js, a 2D game framework for making HTML5 games for desktop and mobile.
+This project was built with Phaser-3, a 2D game framework for making HTML5 games for desktop and mobile.
 
 ## Prerequisites
 
-- Git
+- Git (
 - Node.js
 - NPM
 - Webpack
@@ -55,7 +55,7 @@ This project was Phaser-3.js, a 2D game framework for making HTML5 games for des
 
 ### Playing Locally
 
-Copy the following instructions sequentially into your terminal
+Perform the following instructions sequentially.
 
 - git clone https://github.com/Fig77/new-repo-js/.git
 
@@ -63,7 +63,7 @@ Copy the following instructions sequentially into your terminal
 
 - Run `npm start` in your terminal to fire the Webpack server
 
-- Visit http://localhost:8000 on your browser.
+- Visit http://localhost:8000 on your browser. (Port may change depending on what your computer is using. Check where is running on the console!)
 
 ### Screenshots
 
