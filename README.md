@@ -138,12 +138,11 @@ Please make sure to update tests as appropriate.
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
+## Contact 📱
 
-## Contact
-
-Facundo Iglesias - [Github profile](https://github.com/Fig77)
-
-Project Link: [Project repo](https://github.com/Fig77/new-repo-js/)
+* Facundo Iglesias - [Github profile](https://github.com/Fig77)
+* Email - fig.igle@gmail.com
+* LinkedIn - linkedin.com/in/figlesias.com
 
 ### Credits
 
