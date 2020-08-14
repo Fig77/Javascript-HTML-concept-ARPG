@@ -22,7 +22,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you start all over if you lose). Survive waves of enemies during each round in an arena. After each match, get points per enemy you kill that you can freely distribute among your character stats. (HP - Speed - Atk). The game will scale abruptly and a certain build my get you through more rounds. 
+An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you start all over if you lose). Survive waves of enemies during each round in an arena. After each match, get points per enemy you kill that you can freely distribute among your character stats. (HP - Speed - Atk). The game will scale abruptly and a certain build my get you through more rounds.  Made with [Phaser 3](https://phaser.io/)
 
 ## Table of Contents
 - [Built With](#built-with)
