@@ -1,5 +1,3 @@
-# ARPC concept
-
 [![Contributors][contributors-shield]][contributors-url]
 [![Issues][issues-shield]][issues-url]
 <br />
@@ -22,12 +20,12 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you start all over if you lose). Survive waves of enemies during each round in an arena. After each match, get points per enemy you kill that you can freely distribute among your character stats. (HP - Speed - Atk). The game will scale abruptly and a certain build my get you through more rounds.  Made with [Phaser 3](https://phaser.io/)
+An A-RPG concept that you can play from you browser. Will save and display scores using an API. Made with [Phaser 3](https://phaser.io/)
 
 ## Table of Contents
 - [Built With](#built-with)
 - [Prerequisites](#prerequisites)
-- [Usage](#usage)
+- [About the game and how to run it](#about-the-game-and-how-to-run-it)
   - [Playing Locally](#playing-locally)
   - [Screenshots](#screenshots)
   - [How To Play](#how-to-play)
@@ -41,17 +39,22 @@ An A-RPG concept, from a top-down perspective. Game is roguelike mode (means you
 
 ### Built With
 
-This project was built with Phaser-3, a 2D game framework for making HTML5 games for desktop and mobile.
+* JavaScript
+* Phaser
+* HTML/CSS
+* Node.js
+* Webpack
 
 ## Prerequisites
 
-- Git
 - Node.js
-- NPM
 - Webpack
-- Jest
+- Jest (for running tests)
+- A browser for playing!
 
-## Usage
+## About the game and how to run it
+
+Game is roguelike mode (means you start all over if you lose). Survive waves of enemies during each round in an arena. After each match, get points per enemy you kill that you can freely distribute among your character stats. (HP - Speed - Atk). The game will scale abruptly and a certain build my get you through more rounds.
 
 ### Playing Locally
 
