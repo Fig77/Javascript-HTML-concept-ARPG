@@ -138,7 +138,7 @@ Please make sure to update tests as appropriate.
 Distributed under the MIT License. See `LICENSE` for more information.
 
 <!-- CONTACT -->
-## Contact 📱
+## Contact📱
 
 * Facundo Iglesias - [Github profile](https://github.com/Fig77)
 * Email - fig.igle@gmail.com
