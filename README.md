@@ -121,6 +121,9 @@ easy to deal with. To get this working, you need to 'trick' part of the group to
 
 ## Future Improvements
 
+* Sprites from the map will be simplified since they were not edited.
+* Fully implement pathfinding || Chase algorithm.
+
 See the [open issues](https://github.com/Fig77/new-repo-js/issues) for a list of proposed features (and known issues).
 
 ## Contributing
