@@ -20,7 +20,7 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
-An A-RPG concept that you can play from you browser. Will save and display scores using an API. Made with [Phaser 3](https://phaser.io/)
+An A-RPG concept that you can play from your browser. Will save and display scores using an API. Made with [Phaser 3](https://phaser.io/)
 
 ## Table of Contents
 - [Built With](#built-with)
