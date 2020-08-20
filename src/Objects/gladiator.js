@@ -3,7 +3,7 @@ import 'phaser';
 import Unit from './Unit';
 
 export default class Gladiator extends Unit {
-  constructor(scene, x = 1489.0000000000239, y = 100, hp = 200, atk = 5, def = 5, text = 'gladiator') {
+  constructor(scene, x = 1489.0000000000239, y = 100, hp = 220, atk = 10, def = 5, text = 'gladiator') {
     super(scene, x, y, hp, atk, def, text, 4.5);
     this.timer = this.scene.time.addEvent(this.idleConfig);
     this.text = text;

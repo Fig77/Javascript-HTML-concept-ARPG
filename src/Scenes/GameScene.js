@@ -9,11 +9,11 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
-  preload() {
+  async preload() {
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
-    this.mapInit();
+    await this.mapInit();
   }
 
   mapInit() {
@@ -64,7 +64,7 @@ export default class GameScene extends Phaser.Scene {
     while (i < this.currentNumber) {
       gladiador = new Gladiator(this, this.arena.widthInPixels / 2 + (25 * i + 1), 125);
       gladiador.getSprite().setCollideWorldBounds(true);
-      gladiador.updateStats(this.score / 5);
+      gladiador.updateStats(this.score);
       this.physics.add.collider(gladiador.getSprite(), this.walls[0]);
       this.physics.add.collider(gladiador.getSprite(), this.player.getSprite());
       this.enemyGroup[i] = gladiador;
