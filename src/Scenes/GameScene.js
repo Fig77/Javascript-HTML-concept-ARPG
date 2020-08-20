@@ -9,11 +9,10 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
-  async preload() {
-    this.input.keyboard.on('keydown_SPACE', () => {
-      this.statBoxManager();
-    });
-    await this.mapInit();
+   preload() {
+
+
+    
   }
 
   mapInit() {
@@ -92,6 +91,10 @@ export default class GameScene extends Phaser.Scene {
   }
 
   create() {
+    this.mapInit();
+    this.input.keyboard.on('keydown_SPACE', () => {
+      this.statBoxManager();
+    });
     this.score = 10;
     this.round = 1;
     this.match = false;
