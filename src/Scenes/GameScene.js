@@ -9,13 +9,11 @@ export default class GameScene extends Phaser.Scene {
     super('Game');
   }
 
-   preload() {
-
-
-    
+   async preload() {
+    let a = await this.mapInit();
   }
 
-  mapInit() {
+  async mapInit() {
     this.arena = this.make.tilemap({
       key: 'arena',
     });
@@ -37,6 +35,7 @@ export default class GameScene extends Phaser.Scene {
     wall.setTileIndexCallback(24, () => this.startGame());
     this.walls = [wall, overwall];
     this.match = false;
+    return 'd'
   }
 
   // eslint-disable-next-line class-methods-use-this
@@ -51,6 +50,7 @@ export default class GameScene extends Phaser.Scene {
 
   playerInit() {
     this.player = new Character(this, this.arena.widthInPixels / 2, this.arena.heightInPixels - 25);
+    console.log(this.player)
     this.player.setCamera();
     this.player.getSprite().setCollideWorldBounds(true);
     this.physics.add.collider(this.player.getSprite(), this.walls[0]);
@@ -90,11 +90,11 @@ export default class GameScene extends Phaser.Scene {
     }
   }
 
-  create() {
-    this.mapInit();
+  async create() {
     this.input.keyboard.on('keydown_SPACE', () => {
       this.statBoxManager();
     });
+    this.playerInit(); 
     this.score = 10;
     this.round = 1;
     this.match = false;
@@ -102,7 +102,7 @@ export default class GameScene extends Phaser.Scene {
     this.playerTarget = null;
     this.maxEnemies = 3;
     this.currentNumber = 1;
-    this.playerInit(); // initialize player
+    // initialize player
     this.enemyGroup = new Array(3); // Empty array of enemies.
     // Ui Setups
     this.statmanager = new StatsUi(this);
