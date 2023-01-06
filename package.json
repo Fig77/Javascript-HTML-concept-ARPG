@@ -36,7 +36,7 @@
     "jest-json-schema": "^2.1.0",
     "phaser": "^3.3.0",
     "raw-loader": "^0.5.1",
-    "webpack": "^3.4.1",
+    "webpack": "^5.75.0",
     "webpack-dev-server": "^3.1.11"
   },
   "dependencies": {
